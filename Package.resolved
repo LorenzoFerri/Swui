@@ -1,0 +1,51 @@
+{
+  "originHash" : "471a43f55fdbb3314d6d0f178236c675d54c13a2da3867a235cfbbcd6e212f4c",
+  "pins" : [
+    {
+      "identity" : "swift-cwinrt",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thebrowsercompany/swift-cwinrt",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ad451d31fc7c1c60041c146d177cdaf5aaf1cf47"
+      }
+    },
+    {
+      "identity" : "swift-uwp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thebrowsercompany/swift-uwp",
+      "state" : {
+        "branch" : "main",
+        "revision" : "cfad0a43469211bf7eb58ed23af3d4a176faec07"
+      }
+    },
+    {
+      "identity" : "swift-windowsappsdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thebrowsercompany/swift-windowsappsdk",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8d094d4478d0eabcf584fef133b8ce45287ecd72"
+      }
+    },
+    {
+      "identity" : "swift-windowsfoundation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thebrowsercompany/swift-windowsfoundation",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ba7a8b5000ed3f9f077000d1a31f2a0b19907657"
+      }
+    },
+    {
+      "identity" : "swift-winui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thebrowsercompany/swift-winui",
+      "state" : {
+        "branch" : "main",
+        "revision" : "4c246a1352accfa5e12f7103bd2725b271730cce"
+      }
+    }
+  ],
+  "version" : 3
+}
