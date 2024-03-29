@@ -4,7 +4,7 @@ import WinUI
 public class PreviewApp: SwiftApplication {
     @MainActor lazy var window: Window = {
         let window = Window()
-        window.content = UIHostingController(rootView: ToggleExample())
+        window.content = UIHostingController(rootView: Demo())
         return window
     }()
 

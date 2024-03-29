@@ -1,7 +1,6 @@
 import Foundation
 import WinUI
 struct Button: UIViewRepresentable {
-    var body: Never { fatalError() }
     var view: WinUI.Button?
     let text: String
     let onClick: (() -> Void)?

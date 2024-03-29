@@ -3,7 +3,6 @@ import Observation
 import WinUI
 
 struct ToggleSwitch: UIViewRepresentable {
-    var body: Never { fatalError() }
     var view: WinUI.ToggleSwitch?
     @Binding var value: Bool
 

@@ -8,3 +8,9 @@ protocol UIViewRepresentable: View
     @MainActor mutating func makeUIView() -> Self.UIViewType?
     @MainActor mutating func updateUIView() -> Void
 }
+
+extension UIViewRepresentable where Self.Body == Never {
+    var body: Never {
+        get { fatalError() }
+    }
+}

@@ -3,7 +3,6 @@ import Observation
 import WinUI
 
 struct TextBox: UIViewRepresentable {
-    var body: Never { fatalError() }
     var view: WinUI.TextBox?
     @Binding var value: String
 

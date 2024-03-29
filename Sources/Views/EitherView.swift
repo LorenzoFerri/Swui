@@ -15,7 +15,6 @@ extension EitherView: EitherViewProtocol {
 }
 
 struct EitherView<First: View, Second: View>: UIViewRepresentable {
-    var body: Never { fatalError() }
     var view: UIElement?
     let _view: TypeEreasure
 

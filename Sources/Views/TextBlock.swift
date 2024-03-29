@@ -5,7 +5,6 @@ import WinAppSDK
 import WinUI
 
 struct TextBlock<Value: LosslessStringConvertible>: UIViewRepresentable {
-    var body: Never { fatalError() }
     var view: WinUI.TextBlock?
     var value: () -> Value
     let verticalAlignment: VerticalAlignment = .center
