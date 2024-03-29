@@ -4,7 +4,7 @@ import WinUI
 public class PreviewApp: SwiftApplication {
     @MainActor lazy var window: Window = {
         let window = Window()
-        window.content = UIHostingController(rootView: Demo())
+        window.content = UIHostingController(rootView: ToggleExample())
         return window
     }()
 
@@ -39,7 +39,7 @@ struct CounterExample: View {
     var body: some View {
         StackPanel(orientation: .horizontal) {
             Button("-") { count -= 1 }
-            TextBlock(count)
+            TextBlock("The count is: \(count)")
             Button("+") { count += 1 }
         }
     }
@@ -56,13 +56,22 @@ struct EditExample: View {
 }
 
 struct ToggleExample: View {
-    @State var isEnabled = true
+    @State var isEnabled = false
     var body: some View {
         StackPanel {
             ToggleSwitch($isEnabled)
             if isEnabled {
                 TextBlock("I'm on")
+            } else {
+                TextBlock("I'm off")
             }
+            if isEnabled {
+                CounterExample()
+            }
+            if isEnabled {
+                HelloWorld()
+            }
+            TextBlock("Cose")
         }
     }
 }

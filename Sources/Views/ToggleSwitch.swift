@@ -4,27 +4,32 @@ import WinUI
 
 struct ToggleSwitch: UIViewRepresentable {
     var body: Never { fatalError() }
+    var view: WinUI.ToggleSwitch?
     @Binding var value: Bool
 
     init(_ value: Binding<Bool>) {
         _value = value
     }
 
-    func makeUIView() -> WinUI.ToggleSwitch? {
-        let toggleSwitch = WinUI.ToggleSwitch()
-        toggleSwitch.toggled.addHandler { _, _ in
-            value = toggleSwitch.isOn
+    mutating func makeUIView() -> WinUI.ToggleSwitch? {
+        view = WinUI.ToggleSwitch()
+        if let view {
+            view.toggled.addHandler { [self] _, _ in
+                self.value = view.isOn
+            }
         }
-        updateUIView(view: toggleSwitch)
-        return toggleSwitch
+        updateUIView()
+        return view
     }
 
-    func updateUIView(view toggleSwitch: WinUI.ToggleSwitch) {
-        withObservationTracking {
-            toggleSwitch.isOn = value
-        } onChange: {
-            Task { @MainActor in
-                self.updateUIView(view: toggleSwitch)
+    func updateUIView() {
+        if let view {
+            withObservationTracking {
+                view.isOn = value
+            } onChange: {
+                Task { @MainActor in
+                    self.updateUIView()
+                }
             }
         }
     }

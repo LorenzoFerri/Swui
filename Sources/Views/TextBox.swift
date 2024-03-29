@@ -4,27 +4,32 @@ import WinUI
 
 struct TextBox: UIViewRepresentable {
     var body: Never { fatalError() }
+    var view: WinUI.TextBox?
     @Binding var value: String
 
     init(_ value: Binding<String>) {
         _value = value
     }
 
-    func makeUIView() -> WinUI.TextBox? {
-        let textBox = WinUI.TextBox()
-        textBox.textChanged.addHandler { _, _ in
-            value = textBox.text
+    mutating func makeUIView() -> WinUI.TextBox? {
+        view = WinUI.TextBox()
+        if let view {
+            view.textChanged.addHandler { [self] _, _ in
+                self.value = view.text
+            }
         }
-        updateUIView(view: textBox)
-        return textBox
+        updateUIView()
+        return view
     }
 
-    func updateUIView(view textBox: WinUI.TextBox) {
-        withObservationTracking {
-            textBox.text = value.description
-        } onChange: {
-            Task { @MainActor in
-                self.updateUIView(view: textBox)
+    func updateUIView() {
+        if let view {
+            withObservationTracking {
+                view.text = value.description
+            } onChange: {
+                Task { @MainActor in
+                    self.updateUIView()
+                }
             }
         }
     }

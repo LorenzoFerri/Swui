@@ -1,7 +1,8 @@
+import Foundation
 import WinUI
-
 struct Button: UIViewRepresentable {
     var body: Never { fatalError() }
+    var view: WinUI.Button?
     let text: String
     let onClick: (() -> Void)?
 
@@ -10,19 +11,23 @@ struct Button: UIViewRepresentable {
         self.onClick = onClick
     }
 
-    func makeUIView() -> WinUI.Button? {
-        let button = WinUI.Button()
-        let textBlock = WinUI.TextBlock()
-        button.content = textBlock
-        textBlock.text = text
+    mutating func makeUIView() -> WinUI.Button? {
+        view = WinUI.Button()
+        if let view {
+            let textBlock = WinUI.TextBlock()
+            view.content = textBlock
+            textBlock.text = text
 
-        if let onClick = onClick {
-            button.click.addHandler { _, _ in
-                onClick()
+            if let onClick = onClick {
+                view.click.addHandler { _, _ in
+                    onClick()
+                }
             }
+            return view
+        } else {
+            return nil
         }
-        return button
     }
 
-    func updateUIView(view _: WinUI.Button) {}
+    func updateUIView() {}
 }

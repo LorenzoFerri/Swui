@@ -1,53 +1,119 @@
+import Foundation
 import Observation
-import WinAppSDK
-import WinSDK
 import WinUI
+
+@propertyWrapper
+class ReferenceType<T> {
+    private var _storage: T
+
+    init(wrappedValue: T) {
+        _storage = wrappedValue
+    }
+
+    var wrappedValue: T {
+        _read {
+            yield _storage
+        }
+        _modify {
+            yield &_storage
+        }
+        set {
+            _storage = newValue
+        }
+    }
+}
 
 struct StackPanel<each Content: View>: UIViewRepresentable {
     var body: Never { fatalError() }
-
-    let content: (repeat each Content)
+    var view: WinUI.StackPanel?
+    let content: () -> (repeat each Content)
     let orientation: Orientation
     let verticalAlignment: VerticalAlignment
     let horizontalAlignment: HorizontalAlignment
     let spacing: Double
+    @ReferenceType var eitherViewMap: [Int: Bool] = [:]
+    @ReferenceType var emptyViewMap: [Int: Bool] = [:]
+    @ReferenceType var renderedViews: [Int] = []
 
     init(
         orientation: Orientation = .vertical,
         verticalAlignment: VerticalAlignment = .center,
         horizontalAlignment: HorizontalAlignment = .center,
         spacing: Double = 20,
-        @ViewBuilder content: () -> (repeat each Content)
+        @ViewBuilder content: @escaping () -> (repeat each Content)
     ) {
-        self.content = content()
+        self.content = content
         self.orientation = orientation
         self.horizontalAlignment = horizontalAlignment
         self.verticalAlignment = verticalAlignment
         self.spacing = spacing
     }
 
-    func makeUIView() -> WinUI.StackPanel? {
-        let stackPanel = WinUI.StackPanel()
-        for view in repeat each content {
-            if let view = view._makeView() {
-                stackPanel.children.append(view)
+    mutating func makeUIView() -> WinUI.StackPanel? {
+        view = WinUI.StackPanel()
+        var i = 0
+        for child in repeat each content() {
+            if let eitherView = child as? any EitherViewProtocol {
+                eitherViewMap[i] = eitherView.isFirst
             }
+            if let view = child._makeView() {
+                self.view?.children.append(view)
+                renderedViews.append(i)
+                emptyViewMap[i] = false
+            } else {
+                emptyViewMap[i] = true
+            }
+            i += 1
         }
-        updateUIView(view: stackPanel)
-        return stackPanel
+        updateUIView()
+        return view
     }
 
-    func updateUIView(view stackPanel: WinUI.StackPanel) {
-        withObservationTracking {
-            print((repeat each content))
-            stackPanel.orientation = orientation
-            stackPanel.verticalAlignment = verticalAlignment
-            stackPanel.horizontalAlignment = horizontalAlignment
-            stackPanel.spacing = spacing
-        } onChange: {
-            
-            Task { @MainActor in
-                self.updateUIView(view: stackPanel)
+    func updateUIView() {
+        if let view {
+            withObservationTracking {
+                var i = 0
+                var viewsToRender: [Int] = []
+                var viewsMap: [Int: UIElement] = [:]
+                for child in repeat each content() {
+                    if let eitherView = child as? any EitherViewProtocol {
+                        if eitherViewMap[i] != eitherView.isFirst {
+                            if let view = child._makeView() {
+                                viewsToRender.append(i)
+                                viewsMap[i] = view
+                                emptyViewMap[i] = false
+                            } else {
+                                emptyViewMap[i] = true
+                            }
+                            eitherViewMap[i] = eitherView.isFirst
+                        } else {
+                            if !(emptyViewMap[i]!) {
+                                viewsToRender.append(i)
+                            }
+                        }
+                    } else {
+                        viewsToRender.append(i)
+                    }
+                    i += 1
+                }
+                let operations = viewsToRender.difference(from: renderedViews)
+                for operation in operations {
+                    switch operation {
+                    case let .insert(offset: offset, element: viewKey, _): 
+                        self.view?.children.insertAt(UInt32(offset), viewsMap[viewKey])
+                    case let .remove(offset: offset, _, _): 
+                        self.view?.children.removeAt(UInt32(offset))
+                    }
+                }
+                renderedViews = viewsToRender
+                view.orientation = orientation
+                view.verticalAlignment = verticalAlignment
+                view.horizontalAlignment = horizontalAlignment
+                view.spacing = spacing
+            } onChange: {
+                Task { @MainActor in
+                    self.updateUIView()
+                }
             }
         }
     }

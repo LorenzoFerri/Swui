@@ -6,8 +6,8 @@ import WinUI
 
 struct TextBlock<Value: LosslessStringConvertible>: UIViewRepresentable {
     var body: Never { fatalError() }
-
-    var value: (() -> Value)
+    var view: WinUI.TextBlock?
+    var value: () -> Value
     let verticalAlignment: VerticalAlignment = .center
     let horizontalAlignment: HorizontalAlignment = .center
 
@@ -15,20 +15,22 @@ struct TextBlock<Value: LosslessStringConvertible>: UIViewRepresentable {
         self.value = value
     }
 
-    func makeUIView() -> WinUI.TextBlock? {
-        let textBlock = WinUI.TextBlock()
-        updateUIView(view: textBlock)
-        return textBlock
+    mutating func makeUIView() -> WinUI.TextBlock? {
+        view = WinUI.TextBlock()
+        updateUIView()
+        return view
     }
 
-    func updateUIView(view textBlock: WinUI.TextBlock) {
-        withObservationTracking {
-            textBlock.text = value().description
-            textBlock.verticalAlignment = verticalAlignment
-            textBlock.horizontalAlignment = horizontalAlignment
-        } onChange: {
-            Task { @MainActor in
-                self.updateUIView(view: textBlock)
+    func updateUIView() {
+        if let view {
+            withObservationTracking {
+                view.text = value().description
+                view.verticalAlignment = verticalAlignment
+                view.horizontalAlignment = horizontalAlignment
+            } onChange: {
+                Task { @MainActor in
+                    self.updateUIView()
+                }
             }
         }
     }
