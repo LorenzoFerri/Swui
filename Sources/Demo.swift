@@ -71,6 +71,11 @@ struct ToggleExample: View {
             if isEnabled {
                 HelloWorld()
             }
+            if isEnabled {
+                TextBlock("I'm on")
+            } else {
+                TextBlock("I'm off")
+            }
             TextBlock("Cose")
         }
     }

@@ -2,27 +2,6 @@ import Foundation
 import Observation
 import WinUI
 
-@propertyWrapper
-class ReferenceType<T> {
-    private var _storage: T
-
-    init(wrappedValue: T) {
-        _storage = wrappedValue
-    }
-
-    var wrappedValue: T {
-        _read {
-            yield _storage
-        }
-        _modify {
-            yield &_storage
-        }
-        set {
-            _storage = newValue
-        }
-    }
-}
-
 struct StackPanel<each Content: View>: UIViewRepresentable {
     var body: Never { fatalError() }
     var view: WinUI.StackPanel?
@@ -75,10 +54,14 @@ struct StackPanel<each Content: View>: UIViewRepresentable {
                 var i = 0
                 var viewsToRender: [Int] = []
                 var viewsMap: [Int: UIElement] = [:]
+                var viewsToSet: [Int] = []
                 for child in repeat each content() {
                     if let eitherView = child as? any EitherViewProtocol {
                         if eitherViewMap[i] != eitherView.isFirst {
                             if let view = child._makeView() {
+                                if renderedViews.contains(i) {
+                                    viewsToSet.append(i)
+                                }
                                 viewsToRender.append(i)
                                 viewsMap[i] = view
                                 emptyViewMap[i] = false
@@ -99,10 +82,15 @@ struct StackPanel<each Content: View>: UIViewRepresentable {
                 let operations = viewsToRender.difference(from: renderedViews)
                 for operation in operations {
                     switch operation {
-                    case let .insert(offset: offset, element: viewKey, _): 
+                    case let .insert(offset: offset, element: viewKey, _):
                         self.view?.children.insertAt(UInt32(offset), viewsMap[viewKey])
-                    case let .remove(offset: offset, _, _): 
+                    case let .remove(offset: offset, _, _):
                         self.view?.children.removeAt(UInt32(offset))
+                    }
+                }
+                for viewKey in viewsToSet {
+                    if let index = viewsToRender.firstIndex(of: viewKey) {
+                        self.view?.children.setAt(UInt32(index), viewsMap[viewKey])
                     }
                 }
                 renderedViews = viewsToRender
