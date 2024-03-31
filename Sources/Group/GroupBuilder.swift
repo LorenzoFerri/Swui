@@ -105,7 +105,7 @@ struct ElementGroup4<E0: Group, E1: Group, E2: Group, E3: Group>: Group {
         self.e3 = e3
     }
 
-    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() }
 }
 
 struct ElementGroup5<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group>: Group {
