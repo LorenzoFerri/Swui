@@ -1,8 +1,8 @@
 import WinUI
 
 class PanelState {
-    var renderedElements: [String] = []
-    var elementsMap: [String:UIElement] = [:]
+    var renderedElements: [ElementIdentifier] = []
+    var elementsMap: [ElementIdentifier:UIElement] = [:]
 }
 
 @MainActor
@@ -14,23 +14,24 @@ protocol Panel: UIElementRepresentable where Self.UIElementType: WinUI.Panel {
 
 extension Panel {
     func makePanel<Content: Group>(_ content: () -> Content) {
-        var i = 0
+        var index = 0
         for (id, child) in content().makeGroup() {
-            let id = id + "\(i)"
+            let id = id.appending(id: index)
             if let element = child.makeElement() {
                 self.element?.children.append(element)
                 state.renderedElements.append(id)
                 state.elementsMap[id] = element
             }
-            i += 1
+            index += 1
         }
     }
 
     func updatePanel<Content: Group>(_ content: () -> Content) {
-        var i = 0
-        var elementsToRender: [String] = []
+        var index = 0
+        var elementsToRender: [ElementIdentifier] = []
         for (id, child) in content().makeGroup() {
-            let id = id + "\(i)"
+            let id = id.appending(id: index)
+            print(id)
             if !state.renderedElements.contains(id) {
                 if let element = child.makeElement() {
                     state.elementsMap[id] = element
@@ -39,9 +40,9 @@ extension Panel {
             } else {
                 elementsToRender.append(id)
             }
-            i += 1
+            index += 1
         }
-        
+
         let operations = elementsToRender.difference(from: state.renderedElements)
         for operation in operations {
             switch operation {

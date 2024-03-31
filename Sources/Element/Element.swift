@@ -21,6 +21,13 @@ extension Element {
     }
 }
 
+extension Group where Self: Element {
+    func makeGroup() -> [(ElementIdentifier, any Element)] {
+        [(ElementIdentifier(Self.self), self)]
+    }
+}
+
+
 extension Never: Element {
     typealias Content = Never
     var content: Never { fatalError() }

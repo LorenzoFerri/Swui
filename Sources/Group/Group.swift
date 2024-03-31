@@ -1,11 +1,5 @@
+import Foundation
+
 protocol Group {
-    func makeGroup() -> [(String, any Element)]
+    func makeGroup() -> [(ElementIdentifier, any Element)]
 }
-
-extension Group where Self: Element {
-    func makeGroup() -> [(String, any Element)] {
-        [("\(Self.self)", self)]
-    }
-}
-
-
