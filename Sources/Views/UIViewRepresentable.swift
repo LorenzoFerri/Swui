@@ -1,16 +1,16 @@
 import WinUI
 import Foundation
-protocol UIViewRepresentable: View
-    where Self.Body == Never
+protocol UIElementRepresentable: Element
+    where Self.Content == Never
 {
-    associatedtype UIViewType: UIElement
-    var view: UIViewType? { get set }
-    @MainActor mutating func makeUIView() -> Self.UIViewType?
-    @MainActor mutating func updateUIView() -> Void
+    associatedtype UIElementType: UIElement
+    var element: UIElementType? { get set }
+    @MainActor mutating func makeUIElement() -> Self.UIElementType?
+    @MainActor mutating func updateUIElement() -> Void
 }
 
-extension UIViewRepresentable where Self.Body == Never {
-    var body: Never {
+extension UIElementRepresentable where Self.Content == Never {
+    var content: Never {
         get { fatalError() }
     }
 }

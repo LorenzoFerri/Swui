@@ -2,21 +2,21 @@ import Foundation
 import Observation
 import WinUI
 
-struct StackPanel<each Content: View>: Layout {
-    var view: WinUI.StackPanel?
+struct StackPanel<each Content: Element>: Panel {
+    var element: WinUI.StackPanel?
     var content: () -> (repeat each Content)
     let orientation: Orientation
     let verticalAlignment: VerticalAlignment
     let horizontalAlignment: HorizontalAlignment
     let spacing: Double
-    var state = LayoutState()
+    var state = PanelState()
 
     init(
         orientation: Orientation = .vertical,
         verticalAlignment: VerticalAlignment = .center,
         horizontalAlignment: HorizontalAlignment = .center,
         spacing: Double = 20,
-        @ViewBuilder content: @escaping () -> (repeat each Content)
+        @ElementBuilder content: @escaping () -> (repeat each Content)
     ) {
         self.content = content
         self.orientation = orientation
@@ -25,24 +25,24 @@ struct StackPanel<each Content: View>: Layout {
         self.spacing = spacing
     }
 
-    mutating func makeUIView() -> WinUI.StackPanel? {
-        view = WinUI.StackPanel()
-        makeLayout(content)
-        updateUIView()
-        return view
+    mutating func makeUIElement() -> WinUI.StackPanel? {
+        element = WinUI.StackPanel()
+        makePanel(content)
+        updateUIElement()
+        return element
     }
 
-    func updateUIView() {
-        if let view {
+    func updateUIElement() {
+        if let element {
             withObservationTracking {
-                updateLayout(content)
-                view.orientation = orientation
-                view.verticalAlignment = verticalAlignment
-                view.horizontalAlignment = horizontalAlignment
-                view.spacing = spacing
+                updatePanel(content)
+                element.orientation = orientation
+                element.verticalAlignment = verticalAlignment
+                element.horizontalAlignment = horizontalAlignment
+                element.spacing = spacing
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIView()
+                    self.updateUIElement()
                 }
             }
         }

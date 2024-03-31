@@ -4,8 +4,8 @@ import Observation
 import WinAppSDK
 import WinUI
 
-struct TextBlock<Value: LosslessStringConvertible>: UIViewRepresentable {
-    var view: WinUI.TextBlock?
+struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
+    var element: WinUI.TextBlock?
     var value: () -> Value
     let verticalAlignment: VerticalAlignment = .center
     let horizontalAlignment: HorizontalAlignment = .center
@@ -14,21 +14,21 @@ struct TextBlock<Value: LosslessStringConvertible>: UIViewRepresentable {
         self.value = value
     }
 
-    mutating func makeUIView() -> WinUI.TextBlock? {
-        view = WinUI.TextBlock()
-        updateUIView()
-        return view
+    mutating func makeUIElement() -> WinUI.TextBlock? {
+        element = WinUI.TextBlock()
+        updateUIElement()
+        return element
     }
 
-    func updateUIView() {
-        if let view {
+    func updateUIElement() {
+        if let element {
             withObservationTracking {
-                view.text = value().description
-                view.verticalAlignment = verticalAlignment
-                view.horizontalAlignment = horizontalAlignment
+                element.text = value().description
+                element.verticalAlignment = verticalAlignment
+                element.horizontalAlignment = horizontalAlignment
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIView()
+                    self.updateUIElement()
                 }
             }
         }

@@ -4,7 +4,7 @@ import WinUI
 public class PreviewApp: SwiftApplication {
     @MainActor lazy var window: Window = {
         let window = Window()
-        window.content = UIHostingController(rootView: Demo())
+        window.content = UIHostingController(rootElement: Demo())
         return window
     }()
 
@@ -15,8 +15,8 @@ public class PreviewApp: SwiftApplication {
     }
 }
 
-struct Demo: View {
-    var body: some View {
+struct Demo: Element {
+    var content: some Element {
         StackPanel {
             TextBlock("Demos:")
             HelloWorld()
@@ -27,16 +27,16 @@ struct Demo: View {
     }
 }
 
-struct HelloWorld: View {
-    var body: some View {
+struct HelloWorld: Element {
+    var content: some Element {
         TextBlock("Hello World!")
     }
 }
 
-struct CounterExample: View {
+struct CounterExample: Element {
     @State var count = 0
 
-    var body: some View {
+    var content: some Element {
         StackPanel(orientation: .horizontal) {
             Button("-") { count -= 1 }
             TextBlock("The count is: \(count)")
@@ -45,9 +45,9 @@ struct CounterExample: View {
     }
 }
 
-struct EditExample: View {
+struct EditExample: Element {
     @State var name = "Lorenzo"
-    var body: some View {
+    var content: some Element {
         StackPanel {
             TextBox($name)
             TextBlock(name)
@@ -55,9 +55,9 @@ struct EditExample: View {
     }
 }
 
-struct ToggleExample: View {
+struct ToggleExample: Element {
     @State var isEnabled = false
-    var body: some View {
+    var content: some Element {
         StackPanel {
             ToggleSwitch($isEnabled)
             if isEnabled {
@@ -77,6 +77,17 @@ struct ToggleExample: View {
                 TextBlock("I'm off")
             }
             TextBlock("Cose")
+        }
+    }
+}
+
+struct ForEachExample: Element {
+    var content: some Element {
+        StackPanel {  
+            ForEach(1...5) { i in
+                CounterExample()
+            }
+            CounterExample()
         }
     }
 }

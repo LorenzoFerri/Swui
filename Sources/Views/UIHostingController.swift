@@ -1,11 +1,11 @@
 import WinUI
 
 class UIHostingController<Content>: Frame
-    where Content: View
+    where Content: Element
 {
     @MainActor
-    init(rootView view: Content) {
+    init(rootElement element: Content) {
         super.init()
-        content = view._makeView()
+        content = element._makeElement()
     }
 }

@@ -2,32 +2,32 @@ import Foundation
 import Observation
 import WinUI
 
-struct TextBox: UIViewRepresentable {
-    var view: WinUI.TextBox?
+struct TextBox: UIElementRepresentable {
+    var element: WinUI.TextBox?
     @Binding var value: String
 
     init(_ value: Binding<String>) {
         _value = value
     }
 
-    mutating func makeUIView() -> WinUI.TextBox? {
-        view = WinUI.TextBox()
-        if let view {
-            view.textChanged.addHandler { [self] _, _ in
-                self.value = view.text
+    mutating func makeUIElement() -> WinUI.TextBox? {
+        element = WinUI.TextBox()
+        if let element {
+            element.textChanged.addHandler { [self] _, _ in
+                self.value = element.text
             }
         }
-        updateUIView()
-        return view
+        updateUIElement()
+        return element
     }
 
-    func updateUIView() {
-        if let view {
+    func updateUIElement() {
+        if let element {
             withObservationTracking {
-                view.text = value.description
+                element.text = value.description
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIView()
+                    self.updateUIElement()
                 }
             }
         }
