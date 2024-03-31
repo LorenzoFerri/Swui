@@ -25,8 +25,8 @@ struct EitherGroup<First: Group, Second: Group>: Group {
 
     func makeGroup() -> [(ElementIdentifier, any Element)] {
         switch _element {
-            case let .first(group): group.makeGroup().map { (id, element) in (id.appending(Self.self), element)}
-            case let .second(group): group.makeGroup().map { (id, element) in (id.appending(Self.self), element)}
+            case let .first(group): group.makeGroup().map { (id, element) in (id.appendingPath("\(Self.self).first"), element)}
+            case let .second(group): group.makeGroup().map { (id, element) in (id.appendingPath("\(Self.self).second"), element)}
         }
     }
 }

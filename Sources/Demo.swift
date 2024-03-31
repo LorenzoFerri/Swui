@@ -59,31 +59,43 @@ struct EditExample: Element {
 
 struct ToggleExample: Element {
     @State var isEnabled = false
-    @State var x = 0
 
     var content: some Element {
         StackPanel {
-            Button("+") { x += 1 }
             ToggleSwitch($isEnabled)
-            ForEach(0...x) { i in
-                if isEnabled {
-                    CounterExample()
-                }
+            if isEnabled {
+                TextBlock("I'm on")
+            } else {
+                TextBlock("I'm off")
             }
         }
     }
 }
 
+struct Person: Identifiable {
+    let firstName: String
+    let lastName: String
+    var id: String {
+        "\(firstName) \(lastName)"
+    }
+}
+
 struct ForEachExample: Element {
-    @State var x = 0
+    @State var people: [Person] = [
+        Person(firstName: "Lorenzo", lastName: "Ferri"),
+        Person(firstName: "Alessio", lastName: "Buratti"),
+    ]
     
     var content: some Element {
         StackPanel { 
-            Button("+") { x += 1 }
-            ForEach(1...3) { _ in
-                if x < 2 {
-                    ForEach(1...3) { _ in
-                        TextBlock(x)
+            Button("Shuffle!") { 
+                people.shuffle()
+            }
+            ForEach(people) { person in
+                ForEach(people) { other in
+                    TextBlock("\(person.id) says hello to \(other.id)")
+                    if person.id != other.id {
+                        CounterExample()
                     }
                 }
             }

@@ -16,7 +16,7 @@ extension Panel {
     func makePanel<Content: Group>(_ content: () -> Content) {
         var index = 0
         for (id, child) in content().makeGroup() {
-            let id = id.appending(id: index)
+            let id = id.withIndex(index: index)
             if let element = child.makeElement() {
                 self.element?.children.append(element)
                 state.renderedElements.append(id)
@@ -30,8 +30,7 @@ extension Panel {
         var index = 0
         var elementsToRender: [ElementIdentifier] = []
         for (id, child) in content().makeGroup() {
-            let id = id.appending(id: index)
-            print(id)
+            let id = id.withIndex(index: index)
             if !state.renderedElements.contains(id) {
                 if let element = child.makeElement() {
                     state.elementsMap[id] = element
@@ -42,7 +41,6 @@ extension Panel {
             }
             index += 1
         }
-
         let operations = elementsToRender.difference(from: state.renderedElements)
         for operation in operations {
             switch operation {

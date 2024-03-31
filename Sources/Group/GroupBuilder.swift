@@ -2,40 +2,40 @@
 @MainActor
 @resultBuilder
 enum GroupBuilder {
-    typealias E = Group
-    static func buildBlock<C0: E>(_ c0: C0) -> C0 {
+    typealias G = Group
+    static func buildBlock<C0: G>(_ c0: C0) -> C0 {
         c0
     }
 
-    static func buildBlock<C0: E, C1: E>(_ c0: C0, _ c1: C1) -> ElementGroup2<C0, C1> {
+    static func buildBlock<C0: G, C1: G>(_ c0: C0, _ c1: C1) -> ElementGroup2<C0, C1> {
         .init(c0, c1)
     }
 
-    static func buildBlock<C0: E, C1: E, C2: E>(_ c0: C0, _ c1: C1, _ c2: C2) -> ElementGroup3<C0, C1, C2> {
+    static func buildBlock<C0: G, C1: G, C2: G>(_ c0: C0, _ c1: C1, _ c2: C2) -> ElementGroup3<C0, C1, C2> {
         .init(c0, c1, c2)
     }
 
-    static func buildBlock<C0: E, C1: E, C2: E, C3: E>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3) -> ElementGroup4<C0, C1, C2, C3> {
+    static func buildBlock<C0: G, C1: G, C2: G, C3: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3) -> ElementGroup4<C0, C1, C2, C3> {
         .init(c0, c1, c2, c3)
     }
 
-    static func buildBlock<C0: E, C1: E, C2: E, C3: E, C4: E>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4) -> ElementGroup5<C0, C1, C2, C3, C4> {
+    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4) -> ElementGroup5<C0, C1, C2, C3, C4> {
         .init(c0, c1, c2, c3, c4)
     }
 
-    static func buildBlock<C0: E, C1: E, C2: E, C3: E, C4: E, C5: E>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5) -> ElementGroup6<C0, C1, C2, C3, C4, C5> {
+    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5) -> ElementGroup6<C0, C1, C2, C3, C4, C5> {
         .init(c0, c1, c2, c3, c4, c5)
     }
 
-    static func buildBlock<C0: E, C1: E, C2: E, C3: E, C4: E, C5: E, C6: E>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6) -> ElementGroup7<C0, C1, C2, C3, C4, C5, C6> {
+    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6) -> ElementGroup7<C0, C1, C2, C3, C4, C5, C6> {
         .init(c0, c1, c2, c3, c4, c5, c6)
     }
 
-    static func buildBlock<C0: E, C1: E, C2: E, C3: E, C4: E, C5: E, C6: E, C7: E>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6, _ c7: C7) -> ElementGroup8<C0, C1, C2, C3, C4, C5, C6, C7> {
+    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G, C7: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6, _ c7: C7) -> ElementGroup8<C0, C1, C2, C3, C4, C5, C6, C7> {
         .init(c0, c1, c2, c3, c4, c5, c6, c7)
     }
 
-    static func buildBlock<C0: E, C1: E, C2: E, C3: E, C4: E, C5: E, C6: E, C7: E, C8: E>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6, _ c7: C7, _ c8: C8) -> ElementGroup9<C0, C1, C2, C3, C4, C5, C6, C7, C8> {
+    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G, C7: G, C8: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6, _ c7: C7, _ c8: C8) -> ElementGroup9<C0, C1, C2, C3, C4, C5, C6, C7, C8> {
         .init(c0, c1, c2, c3, c4, c5, c6, c7, c8)
     }
 
