@@ -4,7 +4,7 @@ import WinUI
 public class PreviewApp: SwiftApplication {
     @MainActor lazy var window: Window = {
         let window = Window()
-        window.content = UIHostingController(rootElement: ToggleExample())
+        window.content = UIHostingController(rootElement: ForEachExample())
         return window
     }()
 
@@ -18,7 +18,6 @@ public class PreviewApp: SwiftApplication {
 struct Demo: Element {
     var content: some Element {
         StackPanel {
-            TextBlock("Demos:")
             TextBlock("Demos:")
             HelloWorld()
             CounterExample()
@@ -91,14 +90,18 @@ struct ForEachExample: Element {
             Button("Shuffle!") { 
                 people.shuffle()
             }
-            ForEach(people) { person in
-                ForEach(people) { other in
-                    TextBlock("\(person.id) says hello to \(other.id)")
-                    if person.id != other.id {
-                        CounterExample()
-                    }
-                }
-            }
+            MyGroup(people: people)
         }
     }
 }
+
+struct MyGroup: ElementGroup {
+    var people: [Person]
+
+    var children: some Group {
+        ForEach(people) { person in
+            TextBlock("\(person.id)")       
+        }
+    }
+}
+
