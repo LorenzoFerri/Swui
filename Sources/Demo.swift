@@ -81,13 +81,13 @@ struct ToggleExample: Element {
     }
 }
 
-struct ForEachExample: Element {
-    var content: some Element {
-        StackPanel {  
-            ForEach(1...5) { i in
-                CounterExample()
-            }
-            CounterExample()
-        }
-    }
-}
+// struct ForEachExample: Element {
+//     var content: some Element {
+//         StackPanel {  
+//             ForEach(1...5) { i in
+//                 CounterExample()
+//             }
+//             CounterExample()
+//         }
+//     }
+// }

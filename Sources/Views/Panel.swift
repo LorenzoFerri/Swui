@@ -78,8 +78,8 @@ extension Panel {
     }
 }
 
-protocol ElementGroup: Element {
-    // associatedtype Content: Element
+protocol ElementGroup {
+    associatedtype Content: Element
     func makeGroup() -> [Content]
 }
 
