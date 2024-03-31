@@ -1,10 +1,10 @@
 import WinUI
-
+import UWP
 @main
 public class PreviewApp: SwiftApplication {
     @MainActor lazy var window: Window = {
         let window = Window()
-        window.content = UIHostingController(rootElement: ForEachExample())
+        window.content = UIHostingController(rootElement: Demo())
         return window
     }()
 
@@ -19,6 +19,7 @@ struct Demo: Element {
     var content: some Element {
         StackPanel {
             TextBlock("Demos:")
+                .color(Color(a: 1, r: 1, g: 0, b: 0))
             HelloWorld()
             CounterExample()
             EditExample()

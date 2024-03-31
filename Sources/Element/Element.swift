@@ -11,13 +11,18 @@ protocol Element: Group {
 }
 
 extension Element {
-    func makeElement() -> UIElement? {
+    func makeElement() -> FrameworkElement? {
         guard !(self is EmptyElement) else { return nil }
         if var u = self as? any UIElementRepresentable {
             return u.makeUIElement()
-        } else {
-            return content.makeElement()
         }
+        if let s = self as? any ElementStyler {
+            if let element = s.content.makeElement() {
+                element.style = s.style
+                return element
+            }
+        }
+        return content.makeElement()
     }
 }
 

@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import WinUI
+import UWP
 
 struct StackPanel<Content: Group>: Panel {
     var element: WinUI.StackPanel?
@@ -46,5 +47,14 @@ struct StackPanel<Content: Group>: Panel {
                 }
             }
         }
+    }
+}
+
+extension StackPanel {
+    func color(_ color: Color) -> StyledElement<Self> {
+        let style = Style()
+        style.targetType = TypeName(name: "TextBlock", kind: .primitive)
+        style.setters.append(Setter(WinUI.TextBlock.foregroundProperty, color))
+        return StyledElement(content: self, style: style)
     }
 }

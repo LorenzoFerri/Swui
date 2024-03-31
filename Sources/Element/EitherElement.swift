@@ -15,7 +15,7 @@ extension EitherElement: EitherProtocol {
 }
 
 struct EitherElement<First: Element, Second: Element>: UIElementRepresentable {
-    var element: UIElement?
+    var element: FrameworkElement?
     let _element: TypeEreasure
 
     enum TypeEreasure {
@@ -27,7 +27,7 @@ struct EitherElement<First: Element, Second: Element>: UIElementRepresentable {
         _element = element
     }
 
-    func makeUIElement() -> UIElement? {
+    func makeUIElement() -> FrameworkElement? {
         switch _element {
             case let .first(element): element.makeElement()
             case let .second(element): element.makeElement()
