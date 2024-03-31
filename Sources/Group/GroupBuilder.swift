@@ -63,7 +63,7 @@ struct ElementGroup1<E0: Group>: Group {
         self.e0 = e0
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() }
 }
 
 struct ElementGroup2<E0: Group, E1: Group>: Group {
@@ -75,7 +75,7 @@ struct ElementGroup2<E0: Group, E1: Group>: Group {
         self.e1 = e1
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() + e1.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() }
 }
 
 struct ElementGroup3<E0: Group, E1: Group, E2: Group>: Group {
@@ -89,7 +89,7 @@ struct ElementGroup3<E0: Group, E1: Group, E2: Group>: Group {
         self.e2 = e2
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() }
 }
 
 struct ElementGroup4<E0: Group, E1: Group, E2: Group, E3: Group>: Group {
@@ -105,7 +105,7 @@ struct ElementGroup4<E0: Group, E1: Group, E2: Group, E3: Group>: Group {
         self.e3 = e3
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() }
 }
 
 struct ElementGroup5<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group>: Group {
@@ -123,7 +123,7 @@ struct ElementGroup5<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group>: Gro
         self.e4 = e4
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() }
 }
 
 struct ElementGroup6<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group>: Group {
@@ -143,7 +143,7 @@ struct ElementGroup6<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: 
         self.e5 = e5
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() }
 }
 
 struct ElementGroup7<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group>: Group {
@@ -165,7 +165,7 @@ struct ElementGroup7<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: 
         self.e6 = e6
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() }
 }
 
 struct ElementGroup8<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group, E7: Group>: Group {
@@ -189,7 +189,7 @@ struct ElementGroup8<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: 
         self.e7 = e7
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() }
 }
 
 struct ElementGroup9<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group, E7: Group, E8: Group>: Group {
@@ -215,5 +215,5 @@ struct ElementGroup9<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: 
         self.e8 = e8
     }
 
-    func makeGroup() -> [any Element] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() + e8.makeGroup() }
+    func makeGroup() -> [(String, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() + e8.makeGroup() }
 }

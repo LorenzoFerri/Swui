@@ -1,5 +1,5 @@
 struct ForEach<Data: RandomAccessCollection, Content: Group>: Group {
-    func makeGroup() -> [any Element] {
+    func makeGroup() -> [(String, any Element)] {
         data.flatMap { elementBuilder($0).makeGroup() }
     }
 
@@ -7,7 +7,7 @@ struct ForEach<Data: RandomAccessCollection, Content: Group>: Group {
     var elementBuilder: (Data.Element) -> Content
     var data: Data
 
-    init(_ data: Data, content: @escaping (Data.Element) -> Content) {
+    init(_ data: Data, @GroupBuilder content: @escaping (Data.Element) -> Content) {
         self.elementBuilder = content
         self.data = data
     }

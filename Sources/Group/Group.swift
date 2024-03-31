@@ -1,7 +1,11 @@
 protocol Group {
-    func makeGroup() -> [any Element]
+    func makeGroup() -> [(String, any Element)]
 }
 
-// protocol GroupRepresentable {}
+extension Group where Self: Element {
+    func makeGroup() -> [(String, any Element)] {
+        [("\(Self.self)", self)]
+    }
+}
 
 

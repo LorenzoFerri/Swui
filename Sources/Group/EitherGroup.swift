@@ -23,10 +23,10 @@ struct EitherGroup<First: Group, Second: Group>: Group {
         _element = element
     }
 
-    func makeGroup() -> [any Element] {
+    func makeGroup() -> [(String, any Element)] {
         switch _element {
-            case let .first(group): group.makeGroup()
-            case let .second(group): group.makeGroup()
+            case let .first(group): group.makeGroup().map { (id, element) in ("\(Self.self).first+\(id)", element)}
+            case let .second(group): group.makeGroup().map { (id, element) in ("\(Self.self).second+\(id)", element)}
         }
     }
 }

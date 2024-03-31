@@ -11,19 +11,13 @@ protocol Element: Group {
 }
 
 extension Element {
-    func _makeElement() -> UIElement? {
+    func makeElement() -> UIElement? {
         guard !(self is EmptyElement) else { return nil }
         if var u = self as? any UIElementRepresentable {
             return u.makeUIElement()
         } else {
-            return content._makeElement()
+            return content.makeElement()
         }
-    }
-}
-
-extension Group where Self: Element {
-    func makeGroup() -> [any Element] {
-        [self]
     }
 }
 

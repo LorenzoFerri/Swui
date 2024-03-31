@@ -29,8 +29,8 @@ struct EitherElement<First: Element, Second: Element>: UIElementRepresentable {
 
     func makeUIElement() -> UIElement? {
         switch _element {
-            case let .first(element): element._makeElement()
-            case let .second(element): element._makeElement()
+            case let .first(element): element.makeElement()
+            case let .second(element): element.makeElement()
         }
     }
 

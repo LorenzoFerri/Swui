@@ -59,24 +59,32 @@ struct EditExample: Element {
 
 struct ToggleExample: Element {
     @State var isEnabled = false
+    @State var x = 0
+
     var content: some Element {
         StackPanel {
+            Button("+") { x += 1 }
             ToggleSwitch($isEnabled)
-            // if isEnabled {
-            ForEach(1...5) { i in
-                CounterExample()
+            ForEach(0...x) { i in
+                if isEnabled {
+                    CounterExample()
+                }
             }
-            // }
         }
     }
 }
 
 struct ForEachExample: Element {
+    @State var x = 0
+    
     var content: some Element {
         StackPanel { 
-            ForEach(1...5) { x in
-                ForEach(1...5) { y in
-                    TextBlock("\(x) \(y)")
+            Button("+") { x += 1 }
+            ForEach(1...3) { _ in
+                if x < 2 {
+                    ForEach(1...3) { _ in
+                        TextBlock(x)
+                    }
                 }
             }
         }

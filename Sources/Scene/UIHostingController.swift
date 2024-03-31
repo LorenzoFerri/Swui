@@ -6,6 +6,6 @@ class UIHostingController<Content>: Frame
     @MainActor
     init(rootElement element: Content) {
         super.init()
-        content = element._makeElement()
+        content = element.makeElement()
     }
 }

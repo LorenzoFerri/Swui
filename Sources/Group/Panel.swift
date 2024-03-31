@@ -1,9 +1,8 @@
 import WinUI
 
 class PanelState {
-    var eitherElementMap: [Int: Bool] = [:]
-    var emptyElementMap: [Int: Bool] = [:]
-    var renderedElements: [Int] = []
+    var renderedElements: [String] = []
+    var elementsMap: [String:UIElement] = [:]
 }
 
 @MainActor
@@ -16,16 +15,12 @@ protocol Panel: UIElementRepresentable where Self.UIElementType: WinUI.Panel {
 extension Panel {
     func makePanel<Content: Group>(_ content: () -> Content) {
         var i = 0
-        for child in content().makeGroup() {
-            if let eitherElement = child as? any EitherProtocol {
-                state.eitherElementMap[i] = eitherElement.isFirst
-            }
-            if let element = child._makeElement() {
+        for (id, child) in content().makeGroup() {
+            let id = id + "\(i)"
+            if let element = child.makeElement() {
                 self.element?.children.append(element)
-                state.renderedElements.append(i)
-                state.emptyElementMap[i] = false
-            } else {
-                state.emptyElementMap[i] = true
+                state.renderedElements.append(id)
+                state.elementsMap[id] = element
             }
             i += 1
         }
@@ -33,45 +28,27 @@ extension Panel {
 
     func updatePanel<Content: Group>(_ content: () -> Content) {
         var i = 0
-        var elementsToRender: [Int] = []
-        var elementsMap: [Int: UIElement] = [:]
-        var elementsToSet: [Int] = []
-        for child in content().makeGroup() {
-            if let eitherElement = child as? any EitherProtocol {
-                if state.eitherElementMap[i] != eitherElement.isFirst {
-                    if let element = child._makeElement() {
-                        if state.renderedElements.contains(i) {
-                            elementsToSet.append(i)
-                        }
-                        elementsToRender.append(i)
-                        elementsMap[i] = element
-                        state.emptyElementMap[i] = false
-                    } else {
-                        state.emptyElementMap[i] = true
-                    }
-                    state.eitherElementMap[i] = eitherElement.isFirst
-                } else {
-                    if !(state.emptyElementMap[i]!) {
-                        elementsToRender.append(i)
-                    }
+        var elementsToRender: [String] = []
+        for (id, child) in content().makeGroup() {
+            let id = id + "\(i)"
+            if !state.renderedElements.contains(id) {
+                if let element = child.makeElement() {
+                    state.elementsMap[id] = element
+                    elementsToRender.append(id)
                 }
             } else {
-                elementsToRender.append(i)
+                elementsToRender.append(id)
             }
             i += 1
         }
+        
         let operations = elementsToRender.difference(from: state.renderedElements)
         for operation in operations {
             switch operation {
             case let .insert(offset: offset, element: elementKey, _):
-                element?.children.insertAt(UInt32(offset), elementsMap[elementKey])
+                element?.children.insertAt(UInt32(offset), state.elementsMap[elementKey])
             case let .remove(offset: offset, _, _):
                 element?.children.removeAt(UInt32(offset))
-            }
-        }
-        for elementKey in elementsToSet {
-            if let index = elementsToRender.firstIndex(of: elementKey) {
-                element?.children.setAt(UInt32(index), elementsMap[elementKey])
             }
         }
         state.renderedElements = elementsToRender
