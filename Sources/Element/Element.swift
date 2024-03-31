@@ -3,7 +3,7 @@ import WinUI
 import Foundation
 
 @MainActor
-protocol Element {
+protocol Element: Group {
     associatedtype Content: Element
 
     @ElementBuilder
@@ -18,6 +18,12 @@ extension Element {
         } else {
             return content._makeElement()
         }
+    }
+}
+
+extension Group where Self: Element {
+    func makeGroup() -> [any Element] {
+        [self]
     }
 }
 

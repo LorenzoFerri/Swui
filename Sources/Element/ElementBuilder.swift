@@ -26,9 +26,5 @@ enum ElementBuilder {
     static func buildEither<First: Element, Second: Element>(second component: Second) -> EitherElement<First,Second> {
         EitherElement(.second(component))
     }
-
-    
-    static func buildBlock<each V: Element>(_ views: repeat each V) -> (repeat each V) {
-        (repeat each views)
-    }
 }
+

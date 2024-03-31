@@ -9,15 +9,15 @@ class PanelState {
 @MainActor
 protocol Panel: UIElementRepresentable where Self.UIElementType: WinUI.Panel {
     var state: PanelState { get set }
-    func makePanel<each Content: Element>(_ content: () -> (repeat each Content))
-    func updatePanel<each Content: Element>(_ content: () -> (repeat each Content))
+    func makePanel<Content: Group>(_ content: () -> Content)
+    func updatePanel<Content: Group>(_ content: () -> Content)
 }
 
 extension Panel {
-    func makePanel<each Content: Element>(_ content: () -> (repeat each Content)) {
+    func makePanel<Content: Group>(_ content: () -> Content) {
         var i = 0
-        for child in repeat each content() {
-            if let eitherElement = child as? any EitherElementProtocol {
+        for child in content().makeGroup() {
+            if let eitherElement = child as? any EitherProtocol {
                 state.eitherElementMap[i] = eitherElement.isFirst
             }
             if let element = child._makeElement() {
@@ -31,13 +31,13 @@ extension Panel {
         }
     }
 
-    func updatePanel<each Content: Element>(_ content: () -> (repeat each Content)) {
+    func updatePanel<Content: Group>(_ content: () -> Content) {
         var i = 0
         var elementsToRender: [Int] = []
         var elementsMap: [Int: UIElement] = [:]
         var elementsToSet: [Int] = []
-        for child in repeat each content() {
-            if let eitherElement = child as? any EitherElementProtocol {
+        for child in content().makeGroup() {
+            if let eitherElement = child as? any EitherProtocol {
                 if state.eitherElementMap[i] != eitherElement.isFirst {
                     if let element = child._makeElement() {
                         if state.renderedElements.contains(i) {
@@ -75,23 +75,5 @@ extension Panel {
             }
         }
         state.renderedElements = elementsToRender
-    }
-}
-
-protocol ElementGroup {
-    associatedtype Content: Element
-    func makeGroup() -> [Content]
-}
-
-struct ForEach<Data: RandomAccessCollection, Content: Element>: ElementGroup {
-    func makeGroup() -> [Never] {
-        fatalError()
-    }
-
-    var content: Never { fatalError() }
-    var elementBuilder: (Data.Element) -> Content
-
-    init(_ data: Data, content: @escaping (Data.Element) -> Content) {
-        self.elementBuilder = content
     }
 }

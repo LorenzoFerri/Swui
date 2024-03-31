@@ -4,7 +4,7 @@ import WinUI
 public class PreviewApp: SwiftApplication {
     @MainActor lazy var window: Window = {
         let window = Window()
-        window.content = UIHostingController(rootElement: Demo())
+        window.content = UIHostingController(rootElement: ToggleExample())
         return window
     }()
 
@@ -19,6 +19,7 @@ struct Demo: Element {
     var content: some Element {
         StackPanel {
             TextBlock("Demos:")
+            TextBlock("Demos:")
             HelloWorld()
             CounterExample()
             EditExample()
@@ -26,6 +27,7 @@ struct Demo: Element {
         }
     }
 }
+// }
 
 struct HelloWorld: Element {
     var content: some Element {
@@ -60,34 +62,23 @@ struct ToggleExample: Element {
     var content: some Element {
         StackPanel {
             ToggleSwitch($isEnabled)
-            if isEnabled {
-                TextBlock("I'm on")
-            } else {
-                TextBlock("I'm off")
-            }
-            if isEnabled {
+            // if isEnabled {
+            ForEach(1...5) { i in
                 CounterExample()
             }
-            if isEnabled {
-                HelloWorld()
-            }
-            if isEnabled {
-                TextBlock("I'm on")
-            } else {
-                TextBlock("I'm off")
-            }
-            TextBlock("Cose")
+            // }
         }
     }
 }
 
-// struct ForEachExample: Element {
-//     var content: some Element {
-//         StackPanel {  
-//             ForEach(1...5) { i in
-//                 CounterExample()
-//             }
-//             CounterExample()
-//         }
-//     }
-// }
+struct ForEachExample: Element {
+    var content: some Element {
+        StackPanel { 
+            ForEach(1...5) { x in
+                ForEach(1...5) { y in
+                    TextBlock("\(x) \(y)")
+                }
+            }
+        }
+    }
+}

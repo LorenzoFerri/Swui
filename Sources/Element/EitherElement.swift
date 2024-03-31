@@ -1,11 +1,11 @@
 import WinUI
 import Foundation
 
-protocol EitherElementProtocol {
+protocol EitherProtocol {
     var isFirst: Bool { get }
 }
 
-extension EitherElement: EitherElementProtocol {
+extension EitherElement: EitherProtocol {
     var isFirst: Bool{
         switch self._element {
             case .first: true

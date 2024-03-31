@@ -2,9 +2,9 @@ import Foundation
 import Observation
 import WinUI
 
-struct StackPanel<each Content: Element>: Panel {
+struct StackPanel<Content: Group>: Panel {
     var element: WinUI.StackPanel?
-    var content: () -> (repeat each Content)
+    var content: () -> Content
     let orientation: Orientation
     let verticalAlignment: VerticalAlignment
     let horizontalAlignment: HorizontalAlignment
@@ -16,7 +16,7 @@ struct StackPanel<each Content: Element>: Panel {
         verticalAlignment: VerticalAlignment = .center,
         horizontalAlignment: HorizontalAlignment = .center,
         spacing: Double = 20,
-        @ElementBuilder content: @escaping () -> (repeat each Content)
+        @GroupBuilder content: @escaping () -> Content
     ) {
         self.content = content
         self.orientation = orientation
