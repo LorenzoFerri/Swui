@@ -1,10 +1,12 @@
-import WinUI
 import UWP
+import WinUI
 @main
 public class PreviewApp: SwiftApplication {
     @MainActor lazy var window: Window = {
         let window = Window()
+        window.systemBackdrop = MicaBackdrop()
         window.content = UIHostingController(rootElement: Demo())
+        window.extendsContentIntoTitleBar = true
         return window
     }()
 
@@ -17,92 +19,46 @@ public class PreviewApp: SwiftApplication {
 
 struct Demo: Element {
     var content: some Element {
-        StackPanel {
-            TextBlock("Demos:")
-                .color(Color(a: 1, r: 1, g: 0, b: 0))
-            HelloWorld()
+        NavigationView("Examples") {
             CounterExample()
-            EditExample()
+                .navigationItem("Counter", glyph: .calculator)
             ToggleExample()
+                .navigationItem("Toggle", glyph: .toggleLeft)
+            EditExample()
+                .navigationItem("Edit", glyph: .edit)
         }
-    }
-}
-// }
-
-struct HelloWorld: Element {
-    var content: some Element {
-        TextBlock("Hello World!")
     }
 }
 
 struct CounterExample: Element {
     @State var count = 0
-
     var content: some Element {
         StackPanel(orientation: .horizontal) {
             Button("-") { count -= 1 }
-            TextBlock("The count is: \(count)")
+            TextBlock(count)
             Button("+") { count += 1 }
         }
     }
 }
 
-struct EditExample: Element {
-    @State var name = "Lorenzo"
-    var content: some Element {
-        StackPanel {
-            TextBox($name)
-            TextBlock(name)
-        }
-    }
-}
-
 struct ToggleExample: Element {
-    @State var isEnabled = false
-
+    @State var isOn = false
     var content: some Element {
         StackPanel {
-            ToggleSwitch($isEnabled)
-            if isEnabled {
-                TextBlock("I'm on")
-            } else {
-                TextBlock("I'm off")
+            ToggleSwitch($isOn)
+            if isOn {
+                TextBlock("I'm on!")
             }
         }
     }
 }
 
-struct Person: Identifiable {
-    let firstName: String
-    let lastName: String
-    var id: String {
-        "\(firstName) \(lastName)"
-    }
-}
-
-struct ForEachExample: Element {
-    @State var people: [Person] = [
-        Person(firstName: "Lorenzo", lastName: "Ferri"),
-        Person(firstName: "Alessio", lastName: "Buratti"),
-    ]
-    
+struct EditExample: Element {
+    @State var text = "Hello world!"
     var content: some Element {
-        StackPanel { 
-            Button("Shuffle!") { 
-                people.shuffle()
-            }
-            MyGroup(people: people)
+        StackPanel {
+            TextBox($text)
+            TextBlock(text)
         }
     }
 }
-
-struct MyGroup: ElementGroup {
-    var people: [Person]
-
-    var children: some Group {
-        ForEach(people) { person in
-            TextBlock("\(person.id)")       
-        }
-    }
-}
-

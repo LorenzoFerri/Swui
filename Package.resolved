@@ -1,5 +1,5 @@
 {
-  "originHash" : "7b87f082b13a9023008c51b342c46014851d73f4bee98a396a6079d10aeea413",
+  "originHash" : "b1183044169f1e2842bd43b334360a6ffd53f1d2c667a468a75465ba0e862fc0",
   "pins" : [
     {
       "identity" : "swift-cwinrt",
@@ -8,15 +8,6 @@
       "state" : {
         "branch" : "main",
         "revision" : "ad451d31fc7c1c60041c146d177cdaf5aaf1cf47"
-      }
-    },
-    {
-      "identity" : "swift-log",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-log.git",
-      "state" : {
-        "revision" : "e97a6fcb1ab07462881ac165fdbb37f067e205d5",
-        "version" : "1.5.4"
       }
     },
     {
@@ -49,10 +40,10 @@
     {
       "identity" : "swift-winui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/thebrowsercompany/swift-winui",
+      "location" : "https://github.com/ducaale/swift-winui",
       "state" : {
-        "branch" : "main",
-        "revision" : "4c246a1352accfa5e12f7103bd2725b271730cce"
+        "branch" : "navigationview-bindings",
+        "revision" : "b01b7513da51a7b85c0b2d0f2507f00a738933d3"
       }
     }
   ],

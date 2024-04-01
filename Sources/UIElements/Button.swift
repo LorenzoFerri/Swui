@@ -22,10 +22,8 @@ struct Button: UIElementRepresentable {
                     onClick()
                 }
             }
-            return element
-        } else {
-            return nil
         }
+        return element
     }
 
     func updateUIElement() {}
