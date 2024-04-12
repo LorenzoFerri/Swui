@@ -8,9 +8,9 @@ import WinUI
 struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
     var element: WinUI.TextBlock?
     var value: () -> Value
-    var verticalAlignment: VerticalAlignment = .center
-    var horizontalAlignment: HorizontalAlignment = .center
-    var color: Color?
+    @State private var verticalAlignment: VerticalAlignment = .center
+    @State private var horizontalAlignment: HorizontalAlignment = .center
+    @State private var foregroundColor: Color?
 
     init(_ value: @autoclosure @escaping () -> Value) {
         self.value = value
@@ -28,8 +28,8 @@ struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
                 element.text = value().description
                 element.verticalAlignment = verticalAlignment
                 element.horizontalAlignment = horizontalAlignment
-                if let color {
-                    element.foreground = SolidColorBrush(color)
+                if let foregroundColor {
+                    element.foreground = SolidColorBrush(foregroundColor)
                 }
             } onChange: {
                 Task { @MainActor in
@@ -40,30 +40,49 @@ struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
     }
 }
 
-protocol ElementStyler: Element {
-    var style: Style { get set }
-}
-
-struct StyledElement<Content: Element>: ElementStyler {
-    var content: Content
-    var style: Style
-}
-
 extension TextBlock {
-    mutating func verticalAlignment(_ alignment: VerticalAlignment) -> Self {
-        verticalAlignment = alignment
+    func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
+        return _horizontalAlignment(horizontalAlignment)
+    }
+
+    private func _horizontalAlignment(_ horizontalAlignment: @escaping () -> HorizontalAlignment) -> Self {
+        withObservationTracking {
+            self.horizontalAlignment = horizontalAlignment()
+        } onChange: {
+            Task { @MainActor in
+                self._horizontalAlignment(horizontalAlignment)
+            }
+        }
         return self
     }
 
-    mutating func horizontalAlignment(_ alignment: HorizontalAlignment) -> Self {
-        horizontalAlignment = alignment
+    func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
+        return _verticalAlignment(verticalAlignment)
+    }
+
+    private func _verticalAlignment(_ verticalAlignment: @escaping () -> VerticalAlignment) -> Self {
+        withObservationTracking {
+            self.verticalAlignment = verticalAlignment()
+        } onChange: {
+            Task { @MainActor in
+                self._verticalAlignment(verticalAlignment)
+            }
+        }
         return self
     }
 
-    func color(_: Color) -> StyledElement<Self> {
-        let style = Style()
-        style.targetType = TypeName(name: "TextBlock", kind: .primitive)
-        style.setters.append(Setter(WinUI.TextBlock.foregroundProperty, "red"))
-        return StyledElement(content: self, style: style)
+    func foregroundColor(_ foregroundColor: @escaping @autoclosure () -> Color) -> Self {
+        return _foregroundColor(foregroundColor)
+    }
+
+    private func _foregroundColor(_ foregroundColor: @escaping () -> Color) -> Self {
+        withObservationTracking {
+            self.foregroundColor = foregroundColor()
+        } onChange: {
+            Task { @MainActor in
+                self._foregroundColor(foregroundColor)
+            }
+        }
+        return self
     }
 }

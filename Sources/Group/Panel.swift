@@ -13,7 +13,7 @@ protocol Panel: UIElementRepresentable where Self.UIElementType: WinUI.Panel {
 }
 
 extension Panel {
-    func makePanel<Content: Group>(_ content: () -> Content) {
+    internal func makePanel<Content: Group>(_ content: () -> Content) {
         var index = 0
         for (id, child) in content().makeGroup() {
             let id = id.withIndex(index: index)
@@ -26,7 +26,7 @@ extension Panel {
         }
     }
 
-    func updatePanel<Content: Group>(_ content: () -> Content) {
+    internal func updatePanel<Content: Group>(_ content: () -> Content) {
         var index = 0
         var elementsToRender: [ElementIdentifier] = []
         for (id, child) in content().makeGroup() {

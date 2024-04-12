@@ -16,12 +16,6 @@ extension Element {
         if var u = self as? any UIElementRepresentable {
             return u.makeUIElement()
         }
-        if let s = self as? any ElementStyler {
-            if let element = s.content.makeElement() {
-                element.style = s.style
-                return element
-            }
-        }
         return content.makeElement()
     }
 }

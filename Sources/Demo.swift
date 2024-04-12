@@ -26,6 +26,8 @@ struct Demo: Element {
                 .navigationItem("Toggle", glyph: .toggleLeft)
             EditExample()
                 .navigationItem("Edit", glyph: .edit)
+            ForEachExample()
+                .navigationItem("ForEach", glyph: .list)
         }
     }
 }
@@ -33,7 +35,7 @@ struct Demo: Element {
 struct CounterExample: Element {
     @State var count = 0
     var content: some Element {
-        StackPanel(orientation: .horizontal) {
+        StackPanel(.horizontal) {
             Button("-") { count -= 1 }
             TextBlock(count)
             Button("+") { count += 1 }
@@ -59,6 +61,29 @@ struct EditExample: Element {
         StackPanel {
             TextBox($text)
             TextBlock(text)
+        }
+    }
+}
+
+struct Person: Identifiable {
+    let id: Int
+    let name: String
+}
+
+struct ForEachExample: Element {
+    @State var people = [
+        Person(id: 1, name: "Alice"),
+        Person(id: 2, name: "Bob"),
+        Person(id: 3, name: "John"),
+    ]
+    var content: some Element {
+        StackPanel {
+            ForEach(people) {
+                TextBlock($0.name)
+            }
+            Button("Shuffle") {
+                people.shuffle()
+            }
         }
     }
 }
