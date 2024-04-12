@@ -34,7 +34,7 @@ struct EitherElement<First: Element, Second: Element>: UIElementRepresentable {
         }
     }
 
-    mutating func updateUIElement() {
+    func updateUIElement() {
 
     }
 }

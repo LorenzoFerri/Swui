@@ -6,7 +6,7 @@ protocol UIElementRepresentable: Element
     associatedtype UIElementType: FrameworkElement
     var element: UIElementType? { get set }
     @MainActor mutating func makeUIElement() -> Self.UIElementType?
-    @MainActor mutating func updateUIElement() -> Void
+    @MainActor func updateUIElement() -> Void
 }
 
 extension UIElementRepresentable where Self.Content == Never {
