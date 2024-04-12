@@ -1,5 +1,6 @@
 import UWP
 import WinUI
+
 @main
 public class PreviewApp: SwiftApplication {
     @MainActor lazy var window: Window = {
@@ -38,6 +39,10 @@ struct CounterExample: Element {
         StackPanel(.horizontal) {
             Button("-") { count -= 1 }
             TextBlock(count)
+                .border(Double(count))
+                .background(count % 2 == 0 ? .red : .green)
+                .border(Double(count))
+                .background(count % 2 == 0 ? .green : .red)
             Button("+") { count += 1 }
         }
     }
