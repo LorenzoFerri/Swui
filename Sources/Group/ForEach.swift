@@ -1,16 +1,12 @@
 struct ForEach<Data, Content>: Group where Data: RandomAccessCollection, Content: Group, Data.Element: Identifiable {
-    // func makeGroup() -> [(ElementIdentifier, any Element)] {
-    //     return data.enumerated().flatMap { (index, element) in
-    //         content(element).makeGroup().map { ($0.0.appending(id: index), $0.1) }
-    //     }
-    // }
     var content: (Data.Element) -> Content
     @Binding var data: Data
 }
 
-extension ForEach where Data.Element: Identifiable {
+
+extension ForEach {
     func makeGroup() -> [(ElementIdentifier, any Element)] {
-        data.flatMap { element in
+        return data.flatMap { element in
             content(element).makeGroup().map { ($0.0.withId(id: "\(element.id)"), $0.1) }
         }
     }
@@ -26,16 +22,20 @@ extension ForEach where Data.Element: Identifiable {
     }
 }
 
-// extension ForEach where Data == Range<Int> {
-//     init(_ range: Range<Int>, @GroupBuilder _ content: @escaping (Int) -> Content) {
-//         _data = Binding.constant(range)
-//         self.content = content
-//     }
-// }
+extension ForEach where Data == Range<Int> {
+    init(_ range: Range<Int>, @GroupBuilder _ content: @escaping (Int) -> Content) {
+        _data = Binding.constant(range)
+        self.content = content
+    }
+}
 
-// extension ForEach where Data == ClosedRange<Int> {
-//     init(_ range: ClosedRange<Int>, @GroupBuilder _ content: @escaping (Int) -> Content) {
-//         _data = Binding.constant(range)
-//         self.content = content
-//     }
-// }
+extension Int: @retroactive Identifiable {
+    public var id: Int { self }
+}
+
+extension ForEach where Data == ClosedRange<Int> {
+    init(_ range: ClosedRange<Int>, @GroupBuilder _ content: @escaping (Int) -> Content) {
+        _data = Binding.constant(range)
+        self.content = content
+    }
+}

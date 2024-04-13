@@ -83,6 +83,9 @@ struct ForEachExample: Element {
             Button("Shuffle") {
                 people.shuffle()
             }
+            ForEach(1...5) {
+                TextBlock($0)
+            }
         }
     }
 }
