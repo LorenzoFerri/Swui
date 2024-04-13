@@ -7,7 +7,7 @@ protocol Element: Group {
     associatedtype Content: Element
 
     @ElementBuilder
-    var content: Self.Content { get }
+    var content: Content { get }
 }
 
 extension Element {

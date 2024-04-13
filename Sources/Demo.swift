@@ -2,21 +2,14 @@ import UWP
 import WinUI
 
 @main
-public class PreviewApp: SwiftApplication {
-    @MainActor lazy var window: Window = {
-        let window = Window()
-        window.systemBackdrop = MicaBackdrop()
-        window.content = UIHostingController(rootElement: Demo())
-        window.extendsContentIntoTitleBar = true
-        return window
-    }()
-
-    override public func onLaunched(_: WinUI.LaunchActivatedEventArgs) {
-        Task { @MainActor in
-            try! window.activate()
+struct MyApp: App {
+    var content: some Scene {
+        Window {
+            Demo()
         }
     }
 }
+
 
 struct Demo: Element {
     var content: some Element {
