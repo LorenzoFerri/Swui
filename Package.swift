@@ -11,7 +11,7 @@ let GUILinkerSettings: [LinkerSetting] = [
 ]
 
 let package = Package(
-    name: "swift-declarative-winui",
+    name: "swui",
     dependencies: [
         .package(url: "https://github.com/thebrowsercompany/swift-windowsappsdk", branch: "main"),
         .package(url: "https://github.com/thebrowsercompany/swift-windowsfoundation", branch: "main"),
@@ -21,7 +21,7 @@ let package = Package(
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .executableTarget(
-            name: "swift-declarative-winui",
+            name: "swui",
             dependencies: [
                 .product(name: "WinUI", package: "swift-winui"),
                 .product(name: "WinAppSDK", package: "swift-windowsappsdk"),
