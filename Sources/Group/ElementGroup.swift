@@ -1,4 +1,4 @@
-protocol ElementGroup: Group {
+public protocol ElementGroup: Group {
     associatedtype Children: Group
 
     @GroupBuilder
@@ -6,7 +6,7 @@ protocol ElementGroup: Group {
 }
 
 extension Group where Self: ElementGroup {
-    func makeGroup() -> [(ElementIdentifier, any Element)] {
+    public func makeGroup() -> [(ElementIdentifier, any Element)] {
         children.makeGroup()
     }
 }

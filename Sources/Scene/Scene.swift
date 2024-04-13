@@ -1,4 +1,4 @@
 @MainActor
-protocol Scene {
+public protocol Scene {
     func run()
 }

@@ -1,6 +1,6 @@
 import WinUI
 import Foundation
-protocol UIElementRepresentable: Element
+public protocol UIElementRepresentable: Element
     where Self.Content == Never
 {
     associatedtype UIElementType: FrameworkElement
@@ -10,7 +10,7 @@ protocol UIElementRepresentable: Element
 }
 
 extension UIElementRepresentable where Self.Content == Never {
-    var content: Never {
+    public var content: Never {
         get { fatalError() }
     }
 }

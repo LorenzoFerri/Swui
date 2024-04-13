@@ -1,5 +1,4 @@
-import UWP
-import WinUI
+import Swui
 
 @main
 struct MyApp: App {

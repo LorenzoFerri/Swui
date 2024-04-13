@@ -1,4 +1,4 @@
-enum Glyph: String {
+public enum Glyph: String {
     case globalNavButton = "\u{E700}"
     case wifi = "\u{E701}"
     case bluetooth = "\u{E702}"

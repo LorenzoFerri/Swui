@@ -3,7 +3,7 @@ import Foundation
 
 
 extension EitherGroup: EitherProtocol {
-    var isFirst: Bool{
+    public var isFirst: Bool{
         switch self._element {
             case .first: true
             case .second: false
@@ -11,7 +11,7 @@ extension EitherGroup: EitherProtocol {
     }
 }
 
-struct EitherGroup<First: Group, Second: Group>: Group {
+public struct EitherGroup<First: Group, Second: Group>: Group {
     let _element: TypeEreasure
 
     enum TypeEreasure {
@@ -23,7 +23,7 @@ struct EitherGroup<First: Group, Second: Group>: Group {
         _element = element
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] {
+    public func makeGroup() -> [(ElementIdentifier, any Element)] {
         switch _element {
             case let .first(group): group.makeGroup().map { (id, element) in (id.appendingPath("\(Self.self).first"), element)}
             case let .second(group): group.makeGroup().map { (id, element) in (id.appendingPath("\(Self.self).second"), element)}

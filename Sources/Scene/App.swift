@@ -1,7 +1,7 @@
 import WinUI
 
 @MainActor
-protocol App {
+public protocol App {
     associatedtype Content: Scene
     
     @SceneBuilder

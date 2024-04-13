@@ -2,15 +2,15 @@ import Foundation
 import Observation
 import WinUI
 
-struct ToggleSwitch: UIElementRepresentable {
-    var element: WinUI.ToggleSwitch?
+public struct ToggleSwitch: UIElementRepresentable {
+    public var element: WinUI.ToggleSwitch?
     @Binding var value: Bool
 
-    init(_ value: Binding<Bool>) {
+    public init(_ value: Binding<Bool>) {
         _value = value
     }
 
-    mutating func makeUIElement() -> WinUI.ToggleSwitch? {
+    public mutating func makeUIElement() -> WinUI.ToggleSwitch? {
         element = WinUI.ToggleSwitch()
         if let element {
             element.toggled.addHandler { [self] _, _ in
@@ -21,7 +21,7 @@ struct ToggleSwitch: UIElementRepresentable {
         return element
     }
 
-    func updateUIElement() {
+    public func updateUIElement() {
         if let element {
             withObservationTracking {
                 element.isOn = value

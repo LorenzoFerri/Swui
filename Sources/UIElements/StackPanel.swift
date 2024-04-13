@@ -3,8 +3,8 @@ import Observation
 import UWP
 import WinUI
 
-struct StackPanel<Content: Group>: Panel {
-    var element: WinUI.StackPanel?
+public struct StackPanel<Content: Group>: Panel {
+    public var element: WinUI.StackPanel?
     var content: () -> Content
     @State private var orientation: Orientation = .vertical
     @State private var verticalAlignment: VerticalAlignment = .center
@@ -12,7 +12,7 @@ struct StackPanel<Content: Group>: Panel {
     @State private var spacing: Double = 20.0
     internal var state = PanelState()
 
-    init(
+    public init(
         _ orientation: @escaping @autoclosure () -> Orientation = .vertical,
         @GroupBuilder content: @escaping () -> Content
     ) {
@@ -32,14 +32,14 @@ struct StackPanel<Content: Group>: Panel {
         self.element?.children.removeAt(UInt32(position))
     }
 
-    mutating func makeUIElement() -> WinUI.StackPanel? {
+    public mutating func makeUIElement() -> WinUI.StackPanel? {
         element = WinUI.StackPanel()
         makePanel(content)
         updateUIElement()
         return element
     }
 
-    func updateUIElement() {
+    public func updateUIElement() {
         if let element {
             withObservationTracking {
                 updatePanel(content)
@@ -57,7 +57,7 @@ struct StackPanel<Content: Group>: Panel {
 }
 
 extension StackPanel {
-    private func orientation(_ orientation: @escaping @autoclosure () -> Orientation) -> Self {
+    public func orientation(_ orientation: @escaping @autoclosure () -> Orientation) -> Self {
         withObservationTracking {
             self.orientation = orientation()
         } onChange: {
@@ -69,7 +69,7 @@ extension StackPanel {
     }
 
 
-    func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
+    public func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
         withObservationTracking {
             self.horizontalAlignment = horizontalAlignment()
         } onChange: {
@@ -81,7 +81,7 @@ extension StackPanel {
     }
 
 
-    func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
+    public func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
         withObservationTracking {
             self.verticalAlignment = verticalAlignment()
         } onChange: {
@@ -92,7 +92,7 @@ extension StackPanel {
         return self
     }
 
-    func spacing(_ spacing: @escaping @autoclosure () -> Double) -> Self {
+    public func spacing(_ spacing: @escaping @autoclosure () -> Double) -> Self {
         withObservationTracking {
             self.spacing = spacing()
         } onChange: {

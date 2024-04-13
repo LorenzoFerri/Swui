@@ -1,3 +1,3 @@
-struct EmptyElement: Element {
-    var content: Never { fatalError() }
+public struct EmptyElement: Element {
+    public var content: Never { fatalError() }
 }

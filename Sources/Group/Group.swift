@@ -1,6 +1,6 @@
 import Foundation
 
 @MainActor
-protocol Group {
+public protocol Group {
     func makeGroup() -> [(ElementIdentifier, any Element)]
 }

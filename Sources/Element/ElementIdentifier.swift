@@ -1,4 +1,4 @@
-struct ElementIdentifier: Hashable {
+public struct ElementIdentifier: Hashable {
     var path: String
     var id: String?
 

@@ -1,45 +1,45 @@
 
 @MainActor
 @resultBuilder
-enum GroupBuilder {
-    typealias G = Group
-    static func buildBlock<C0: G>(_ c0: C0) -> C0 {
+public enum GroupBuilder {
+    public typealias G = Group
+    public static func buildBlock<C0: G>(_ c0: C0) -> C0 {
         c0
     }
 
-    static func buildBlock<C0: G, C1: G>(_ c0: C0, _ c1: C1) -> ElementGroup2<C0, C1> {
+    public static func buildBlock<C0: G, C1: G>(_ c0: C0, _ c1: C1) -> ElementGroup2<C0, C1> {
         .init(c0, c1)
     }
 
-    static func buildBlock<C0: G, C1: G, C2: G>(_ c0: C0, _ c1: C1, _ c2: C2) -> ElementGroup3<C0, C1, C2> {
+    public static func buildBlock<C0: G, C1: G, C2: G>(_ c0: C0, _ c1: C1, _ c2: C2) -> ElementGroup3<C0, C1, C2> {
         .init(c0, c1, c2)
     }
 
-    static func buildBlock<C0: G, C1: G, C2: G, C3: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3) -> ElementGroup4<C0, C1, C2, C3> {
+    public static func buildBlock<C0: G, C1: G, C2: G, C3: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3) -> ElementGroup4<C0, C1, C2, C3> {
         .init(c0, c1, c2, c3)
     }
 
-    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4) -> ElementGroup5<C0, C1, C2, C3, C4> {
+    public static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4) -> ElementGroup5<C0, C1, C2, C3, C4> {
         .init(c0, c1, c2, c3, c4)
     }
 
-    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5) -> ElementGroup6<C0, C1, C2, C3, C4, C5> {
+    public static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5) -> ElementGroup6<C0, C1, C2, C3, C4, C5> {
         .init(c0, c1, c2, c3, c4, c5)
     }
 
-    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6) -> ElementGroup7<C0, C1, C2, C3, C4, C5, C6> {
+    public static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6) -> ElementGroup7<C0, C1, C2, C3, C4, C5, C6> {
         .init(c0, c1, c2, c3, c4, c5, c6)
     }
 
-    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G, C7: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6, _ c7: C7) -> ElementGroup8<C0, C1, C2, C3, C4, C5, C6, C7> {
+    public static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G, C7: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6, _ c7: C7) -> ElementGroup8<C0, C1, C2, C3, C4, C5, C6, C7> {
         .init(c0, c1, c2, c3, c4, c5, c6, c7)
     }
 
-    static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G, C7: G, C8: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6, _ c7: C7, _ c8: C8) -> ElementGroup9<C0, C1, C2, C3, C4, C5, C6, C7, C8> {
+    public static func buildBlock<C0: G, C1: G, C2: G, C3: G, C4: G, C5: G, C6: G, C7: G, C8: G>(_ c0: C0, _ c1: C1, _ c2: C2, _ c3: C3, _ c4: C4, _ c5: C5, _ c6: C6, _ c7: C7, _ c8: C8) -> ElementGroup9<C0, C1, C2, C3, C4, C5, C6, C7, C8> {
         .init(c0, c1, c2, c3, c4, c5, c6, c7, c8)
     }
 
-    static func buildOptional<Component: Group>(_ component: Component?) -> EitherGroup<Component, EmptyElement> {
+    public static func buildOptional<Component: Group>(_ component: Component?) -> EitherGroup<Component, EmptyElement> {
         if let component {
             EitherGroup<Component, EmptyElement>(.first(component))
         } else {
@@ -47,26 +47,26 @@ enum GroupBuilder {
         }
     }
 
-    static func buildEither<First: Group, Second: Group>(first component: First) -> EitherGroup<First, Second> {
+    public static func buildEither<First: Group, Second: Group>(first component: First) -> EitherGroup<First, Second> {
         EitherGroup(.first(component))
     }
 
-    static func buildEither<First: Group, Second: Group>(second component: Second) -> EitherGroup<First, Second> {
+    public static func buildEither<First: Group, Second: Group>(second component: Second) -> EitherGroup<First, Second> {
         EitherGroup(.second(component))
     }
 }
 
-struct ElementGroup1<E0: Group>: Group {
+public struct ElementGroup1<E0: Group>: Group {
     var e0: E0
 
     init(_ e0: E0) {
         self.e0 = e0
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() }
 }
 
-struct ElementGroup2<E0: Group, E1: Group>: Group {
+public struct ElementGroup2<E0: Group, E1: Group>: Group {
     var e0: E0
     var e1: E1
 
@@ -75,10 +75,10 @@ struct ElementGroup2<E0: Group, E1: Group>: Group {
         self.e1 = e1
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() }
 }
 
-struct ElementGroup3<E0: Group, E1: Group, E2: Group>: Group {
+public struct ElementGroup3<E0: Group, E1: Group, E2: Group>: Group {
     var e0: E0
     var e1: E1
     var e2: E2
@@ -89,10 +89,10 @@ struct ElementGroup3<E0: Group, E1: Group, E2: Group>: Group {
         self.e2 = e2
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() }
 }
 
-struct ElementGroup4<E0: Group, E1: Group, E2: Group, E3: Group>: Group {
+public struct ElementGroup4<E0: Group, E1: Group, E2: Group, E3: Group>: Group {
     var e0: E0
     var e1: E1
     var e2: E2
@@ -105,10 +105,10 @@ struct ElementGroup4<E0: Group, E1: Group, E2: Group, E3: Group>: Group {
         self.e3 = e3
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() }
 }
 
-struct ElementGroup5<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group>: Group {
+public struct ElementGroup5<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group>: Group {
     var e0: E0
     var e1: E1
     var e2: E2
@@ -123,10 +123,10 @@ struct ElementGroup5<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group>: Gro
         self.e4 = e4
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() }
 }
 
-struct ElementGroup6<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group>: Group {
+public struct ElementGroup6<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group>: Group {
     var e0: E0
     var e1: E1
     var e2: E2
@@ -143,10 +143,10 @@ struct ElementGroup6<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: 
         self.e5 = e5
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() }
 }
 
-struct ElementGroup7<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group>: Group {
+public struct ElementGroup7<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group>: Group {
     var e0: E0
     var e1: E1
     var e2: E2
@@ -165,10 +165,10 @@ struct ElementGroup7<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: 
         self.e6 = e6
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() }
 }
 
-struct ElementGroup8<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group, E7: Group>: Group {
+public struct ElementGroup8<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group, E7: Group>: Group {
     var e0: E0
     var e1: E1
     var e2: E2
@@ -189,10 +189,10 @@ struct ElementGroup8<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: 
         self.e7 = e7
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() }
 }
 
-struct ElementGroup9<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group, E7: Group, E8: Group>: Group {
+public struct ElementGroup9<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group, E7: Group, E8: Group>: Group {
     var e0: E0
     var e1: E1
     var e2: E2
@@ -215,5 +215,5 @@ struct ElementGroup9<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: 
         self.e8 = e8
     }
 
-    func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() + e8.makeGroup() }
+    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() + e8.makeGroup() }
 }

@@ -5,24 +5,24 @@ import UWP
 import WinAppSDK
 import WinUI
 
-struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
-    var element: WinUI.TextBlock?
+public struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
+    public var element: WinUI.TextBlock?
     var value: () -> Value
     @State private var verticalAlignment: VerticalAlignment = .center
     @State private var horizontalAlignment: HorizontalAlignment = .center
     @State private var foregroundColor: Color?
 
-    init(_ value: @autoclosure @escaping () -> Value) {
+    public init(_ value: @autoclosure @escaping () -> Value) {
         self.value = value
     }
 
-    mutating func makeUIElement() -> WinUI.TextBlock? {
+    public mutating func makeUIElement() -> WinUI.TextBlock? {
         element = WinUI.TextBlock()
         updateUIElement()
         return element
     }
 
-    func updateUIElement() {
+    public func updateUIElement() {
         if let element {
             withObservationTracking {
                 element.text = value().description
@@ -41,7 +41,7 @@ struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
 }
 
 extension TextBlock {
-    func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
+    public func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
         withObservationTracking {
             self.horizontalAlignment = horizontalAlignment()
         } onChange: {
@@ -53,7 +53,7 @@ extension TextBlock {
     }
 
 
-    func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
+    public func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
         withObservationTracking {
             self.verticalAlignment = verticalAlignment()
         } onChange: {
@@ -65,7 +65,7 @@ extension TextBlock {
     }
 
 
-    func foregroundColor(_ foregroundColor: @escaping @autoclosure () -> Color) -> Self {
+    public func foregroundColor(_ foregroundColor: @escaping @autoclosure () -> Color) -> Self {
         withObservationTracking {
             self.foregroundColor = foregroundColor()
         } onChange: {

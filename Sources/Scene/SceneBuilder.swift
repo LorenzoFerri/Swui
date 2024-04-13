@@ -1,7 +1,7 @@
 @MainActor
 @resultBuilder
-enum SceneBuilder {
-    static func buildBlock<Component: Scene>(_ component: Component) -> Component {
+public enum SceneBuilder {
+    public static func buildBlock<Component: Scene>(_ component: Component) -> Component {
         component
     }
 }

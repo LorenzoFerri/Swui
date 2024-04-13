@@ -3,13 +3,13 @@ import UWP
 import WinUI
 import Foundation
 
-struct Border<Content: Element>: UIElementRepresentable {
-    var element: WinUI.Border?
+public struct Border<Content: Element>: UIElementRepresentable {
+    public var element: WinUI.Border?
     let content: Content
     let borderThickness: () -> Thickness
     let backgroundColor: () -> Color
 
-    init(
+    public init(
         borderThickness: @autoclosure @escaping () -> Thickness = .init(),
         backgroundColor: @autoclosure @escaping () -> Color = .transparent,
         @ElementBuilder _ content: @escaping () -> Content
@@ -19,14 +19,14 @@ struct Border<Content: Element>: UIElementRepresentable {
         self.backgroundColor = backgroundColor
     }
 
-    mutating func makeUIElement() -> WinUI.Border? {
+    public mutating func makeUIElement() -> WinUI.Border? {
         element = WinUI.Border()
         element?.child = content.makeElement()
         updateUIElement()
         return element
     }
 
-    func updateUIElement() {
+    public func updateUIElement() {
         if let element {
             withObservationTracking {
                 element.borderThickness = borderThickness()
@@ -41,7 +41,7 @@ struct Border<Content: Element>: UIElementRepresentable {
 }
 
 extension Element {
-    func border(_ all: @autoclosure @escaping () -> Double = 16.0) -> Border<Self> {
+    public func border(_ all: @autoclosure @escaping () -> Double = 16.0) -> Border<Self> {
         return Border(borderThickness: .init(
             left: all(),
             top: all(),
@@ -50,7 +50,7 @@ extension Element {
         )) { self }
     }
 
-    func border(
+    public func border(
         left: @autoclosure @escaping () -> Double = 0.0,
         top: @autoclosure @escaping () -> Double = 0.0,
         right: @autoclosure @escaping () -> Double = 0.0,
@@ -64,7 +64,7 @@ extension Element {
         )) { self }
     }
 
-    func border(
+    public func border(
         horizontal: @autoclosure @escaping () -> Double = 0.0,
         vertical: @autoclosure @escaping () -> Double = 0.0
     ) -> Border<Self> {
@@ -76,7 +76,7 @@ extension Element {
         )) { self }
     }
 
-    func background(_ backgroundColor: @autoclosure @escaping () -> Color) -> Border<Self> {
+    public func background(_ backgroundColor: @autoclosure @escaping () -> Color) -> Border<Self> {
         return Border(backgroundColor: backgroundColor()) { self }
     }
 }

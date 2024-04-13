@@ -1,12 +1,12 @@
 import WinUI
 import Foundation
 
-protocol EitherProtocol {
+public protocol EitherProtocol {
     var isFirst: Bool { get }
 }
 
 extension EitherElement: EitherProtocol {
-    var isFirst: Bool{
+    public var isFirst: Bool{
         switch self._element {
             case .first: true
             case .second: false
@@ -14,27 +14,27 @@ extension EitherElement: EitherProtocol {
     }
 }
 
-struct EitherElement<First: Element, Second: Element>: UIElementRepresentable {
-    var element: FrameworkElement?
+public struct EitherElement<First: Element, Second: Element>: UIElementRepresentable {
+    public var element: FrameworkElement?
     let _element: TypeEreasure
 
-    enum TypeEreasure {
+    public enum TypeEreasure {
         case first(First)
         case second(Second)
     }
 
-    init(_ element: TypeEreasure) {
+    public init(_ element: TypeEreasure) {
         _element = element
     }
 
-    func makeUIElement() -> FrameworkElement? {
+    public func makeUIElement() -> FrameworkElement? {
         switch _element {
             case let .first(element): element.makeElement()
             case let .second(element): element.makeElement()
         }
     }
 
-    func updateUIElement() {
+    public func updateUIElement() {
 
     }
 }

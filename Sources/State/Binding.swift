@@ -1,15 +1,15 @@
 
 @propertyWrapper
-struct Binding<Value> {
+public struct Binding<Value> {
     let get: () -> Value
     let set: (Value) -> Void
 
-    var wrappedValue: Value {
+    public var wrappedValue: Value {
         get { get() }
         nonmutating set { set(newValue) }
     }
 
-    var projectedValue: Binding<Value> {
+    public var projectedValue: Binding<Value> {
         self
     }
 

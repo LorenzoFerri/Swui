@@ -1,10 +1,10 @@
 import WinUI
 
-struct Window<Content: Element>: Scene {
+public struct Window<Content: Element>: Scene {
     var content: Content
     @ReferenceType var window: WinUI.Window
 
-    init(@ElementBuilder _ content: @escaping () -> Content) {
+    public init(@ElementBuilder _ content: @escaping () -> Content) {
         self.content = content()
         window = WinUI.Window()
         window.systemBackdrop = MicaBackdrop()
@@ -12,7 +12,7 @@ struct Window<Content: Element>: Scene {
         window.extendsContentIntoTitleBar = true
     }
 
-    func run() {
+    public func run() {
         Task { @MainActor in
             try! window.activate()
         }

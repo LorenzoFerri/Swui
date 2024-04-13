@@ -11,26 +11,31 @@ let GUILinkerSettings: [LinkerSetting] = [
 ]
 
 let package = Package(
-    name: "swui",
+    name: "Swui",
+    products: [
+        .library(name: "Swui", targets: ["Swui"]),
+        .executable(name: "Example", targets: ["Example"]),
+    ],
     dependencies: [
         .package(url: "https://github.com/thebrowsercompany/swift-windowsappsdk", branch: "main"),
         .package(url: "https://github.com/thebrowsercompany/swift-windowsfoundation", branch: "main"),
         .package(url: "https://github.com/ducaale/swift-winui", branch: "navigationview-bindings"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .executableTarget(
-            name: "swui",
+        .target(
+            name: "Swui",
             dependencies: [
                 .product(name: "WinUI", package: "swift-winui"),
                 .product(name: "WinAppSDK", package: "swift-windowsappsdk"),
                 .product(name: "WindowsFoundation", package: "swift-windowsfoundation"),
             ],
-            // swiftSettings: [
-            //     .unsafeFlags(["-parse-as-library"]),
-            // ]
+            path: "Sources/",
             linkerSettings: GUILinkerSettings
+        ),
+        .executableTarget(
+            name: "Example",
+            dependencies: ["Swui"],
+            path: "Example/"
         ),
     ]
 )

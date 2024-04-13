@@ -1,16 +1,16 @@
 import Foundation
 import WinUI
-struct Button: UIElementRepresentable {
-    var element: WinUI.Button?
+public struct Button: UIElementRepresentable {
+    public var element: WinUI.Button?
     let text: String
     let onClick: (() -> Void)?
 
-    init(_ text: String, onClick: (() -> Void)? = nil) {
+    public init(_ text: String, onClick: (() -> Void)? = nil) {
         self.text = text
         self.onClick = onClick
     }
 
-    mutating func makeUIElement() -> WinUI.Button? {
+    public mutating func makeUIElement() -> WinUI.Button? {
         element = WinUI.Button()
         if let element {
             let textBlock = WinUI.TextBlock()
@@ -26,5 +26,5 @@ struct Button: UIElementRepresentable {
         return element
     }
 
-    func updateUIElement() {}
+    public func updateUIElement() {}
 }

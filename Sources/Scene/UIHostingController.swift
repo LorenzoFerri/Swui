@@ -1,6 +1,6 @@
 import WinUI
 
-class UIHostingController<Content>: Frame
+public class UIHostingController<Content>: Frame
     where Content: Element
 {
     @MainActor

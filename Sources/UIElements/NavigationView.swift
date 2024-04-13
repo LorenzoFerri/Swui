@@ -1,18 +1,18 @@
 import Observation
 import WinUI
 
-struct NavigationView<Content: Group>: Panel {
+public struct NavigationView<Content: Group>: Panel {
     var state = PanelState()
-    var element: WinUI.NavigationView?
+    public var element: WinUI.NavigationView?
     var content: () -> Content
     var title: (() -> String)? = nil
     @ReferenceType var contentMap: [ElementIdentifier: () -> any Element] = [:]
 
-    init(@GroupBuilder content: @escaping () -> Content) {
+    public init(@GroupBuilder content: @escaping () -> Content) {
         self.content = content
     }
 
-    init(_ title: @escaping @autoclosure () -> String, @GroupBuilder content: @escaping () -> Content) {
+    public init(_ title: @escaping @autoclosure () -> String, @GroupBuilder content: @escaping () -> Content) {
         self.content = content
         self.title = title
     }
@@ -37,7 +37,7 @@ struct NavigationView<Content: Group>: Panel {
         return nil
     }
 
-    mutating func makeUIElement() -> WinUI.NavigationView? {
+    public mutating func makeUIElement() -> WinUI.NavigationView? {
         element = WinUI.NavigationView()
         if let element {
             if let title = title?() {
@@ -60,7 +60,7 @@ struct NavigationView<Content: Group>: Panel {
         return element
     }
 
-    func updateUIElement() {
+    public func updateUIElement() {
         if element != nil {
             withObservationTracking {
                 updatePanel(content)
@@ -73,30 +73,30 @@ struct NavigationView<Content: Group>: Panel {
     }
 }
 
-protocol NavigationItemProtocol: Element {
+public protocol NavigationItemProtocol: Element {
     associatedtype NavigationContent: Element
     var navigationContent: () -> NavigationContent { get set }
 }
 
-struct NavigationViewItem<Content: Element>: UIElementRepresentable, NavigationItemProtocol {
-    var element: WinUI.NavigationViewItem?
+public struct NavigationViewItem<Content: Element>: UIElementRepresentable, NavigationItemProtocol {
+    public var element: WinUI.NavigationViewItem?
     var value: () -> String
-    var navigationContent: () -> Content
+    public var navigationContent: () -> Content
     var icon: Glyph?
 
-    init(title value: @autoclosure @escaping () -> String, icon: Glyph? = nil, content: @autoclosure @escaping () -> Content) {
+    public init(title value: @autoclosure @escaping () -> String, icon: Glyph? = nil, content: @autoclosure @escaping () -> Content) {
         self.value = value
         self.icon = icon
         navigationContent = content
     }
 
-    mutating func makeUIElement() -> WinUI.NavigationViewItem? {
+    public mutating func makeUIElement() -> WinUI.NavigationViewItem? {
         element = WinUI.NavigationViewItem()
         updateUIElement()
         return element
     }
 
-    func updateUIElement() {
+    public func updateUIElement() {
         if let element {
             withObservationTracking {
                 element.content = value()
@@ -117,7 +117,7 @@ struct NavigationViewItem<Content: Element>: UIElementRepresentable, NavigationI
 }
 
 extension Element {
-    func navigationItem(_ title: String, glyph: Glyph? = nil) -> NavigationViewItem<Self> {
+    public func navigationItem(_ title: String, glyph: Glyph? = nil) -> NavigationViewItem<Self> {
         NavigationViewItem(title: title, icon: glyph, content: self)
     }
 }

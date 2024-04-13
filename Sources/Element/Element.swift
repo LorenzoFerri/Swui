@@ -3,7 +3,7 @@ import WinUI
 import Foundation
 
 @MainActor
-protocol Element: Group {
+public protocol Element: Group {
     associatedtype Content: Element
 
     @ElementBuilder
@@ -21,13 +21,13 @@ extension Element {
 }
 
 extension Group where Self: Element {
-    func makeGroup() -> [(ElementIdentifier, any Element)] {
+    public func makeGroup() -> [(ElementIdentifier, any Element)] {
         [(ElementIdentifier(Self.self), self)]
     }
 }
 
 
 extension Never: Element {
-    typealias Content = Never
-    var content: Never { fatalError() }
+    public typealias Content = Never
+    public var content: Never { fatalError() }
 }
