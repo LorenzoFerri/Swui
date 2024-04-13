@@ -39,6 +39,7 @@ struct CounterExample: Element {
         StackPanel(.horizontal) {
             Button("-") { count -= 1 }
             TextBlock(count)
+                .foregroundColor(count % 2 == 0 ? .green : .red)
                 .border(Double(count))
                 .background(count % 2 == 0 ? .red : .green)
                 .border(Double(count))

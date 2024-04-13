@@ -17,7 +17,7 @@ struct StackPanel<Content: Group>: Panel {
         @GroupBuilder content: @escaping () -> Content
     ) {
         self.content = content
-        _ = self._orientation(orientation)
+        _ = self.orientation(orientation())
     }
 
     mutating func makeUIElement() -> WinUI.StackPanel? {
@@ -45,61 +45,47 @@ struct StackPanel<Content: Group>: Panel {
 }
 
 extension StackPanel {
-    func orientation(_ orientation: @escaping @autoclosure () -> Orientation) -> Self {
-        return _orientation(orientation)
-    }
-
-    private func _orientation(_ orientation: @escaping () -> Orientation) -> Self {
+    private func orientation(_ orientation: @escaping @autoclosure () -> Orientation) -> Self {
         withObservationTracking {
             self.orientation = orientation()
         } onChange: {
             Task { @MainActor in
-                self._orientation(orientation)
+                self.orientation(orientation())
             }
         }
         return self
     }
 
-    func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
-        return _horizontalAlignment(horizontalAlignment)
-    }
 
-    private func _horizontalAlignment(_ horizontalAlignment: @escaping () -> HorizontalAlignment) -> Self {
+    func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
         withObservationTracking {
             self.horizontalAlignment = horizontalAlignment()
         } onChange: {
             Task { @MainActor in
-                self._horizontalAlignment(horizontalAlignment)
+                self.horizontalAlignment(horizontalAlignment())
             }
         }
         return self
     }
 
-    func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
-        return _verticalAlignment(verticalAlignment)
-    }
 
-    private func _verticalAlignment(_ verticalAlignment: @escaping () -> VerticalAlignment) -> Self {
+    func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
         withObservationTracking {
             self.verticalAlignment = verticalAlignment()
         } onChange: {
             Task { @MainActor in
-                self._verticalAlignment(verticalAlignment)
+                self.verticalAlignment(verticalAlignment())
             }
         }
         return self
     }
 
     func spacing(_ spacing: @escaping @autoclosure () -> Double) -> Self {
-        return _spacing(spacing)
-    }
-
-    private func _spacing(_ spacing: @escaping () -> Double) -> Self {
         withObservationTracking {
             self.spacing = spacing()
         } onChange: {
             Task { @MainActor in
-                self._spacing(spacing)
+                self.spacing(spacing())
             }
         }
         return self

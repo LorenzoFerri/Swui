@@ -42,45 +42,35 @@ struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
 
 extension TextBlock {
     func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
-        return _horizontalAlignment(horizontalAlignment)
-    }
-
-    private func _horizontalAlignment(_ horizontalAlignment: @escaping () -> HorizontalAlignment) -> Self {
         withObservationTracking {
             self.horizontalAlignment = horizontalAlignment()
         } onChange: {
             Task { @MainActor in
-                self._horizontalAlignment(horizontalAlignment)
+                self.horizontalAlignment(horizontalAlignment())
             }
         }
         return self
     }
 
-    func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
-        return _verticalAlignment(verticalAlignment)
-    }
 
-    private func _verticalAlignment(_ verticalAlignment: @escaping () -> VerticalAlignment) -> Self {
+    func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
         withObservationTracking {
             self.verticalAlignment = verticalAlignment()
         } onChange: {
             Task { @MainActor in
-                self._verticalAlignment(verticalAlignment)
+                self.verticalAlignment(verticalAlignment())
             }
         }
         return self
     }
 
-    func foregroundColor(_ foregroundColor: @escaping @autoclosure () -> Color) -> Self {
-        return _foregroundColor(foregroundColor)
-    }
 
-    private func _foregroundColor(_ foregroundColor: @escaping () -> Color) -> Self {
+    func foregroundColor(_ foregroundColor: @escaping @autoclosure () -> Color) -> Self {
         withObservationTracking {
             self.foregroundColor = foregroundColor()
         } onChange: {
             Task { @MainActor in
-                self._foregroundColor(foregroundColor)
+                self.foregroundColor(foregroundColor())
             }
         }
         return self
