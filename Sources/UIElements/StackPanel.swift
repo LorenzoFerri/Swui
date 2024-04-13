@@ -20,6 +20,18 @@ struct StackPanel<Content: Group>: Panel {
         _ = self.orientation(orientation())
     }
 
+    func append(_ element: WinUI.FrameworkElement) {
+        self.element?.children.append(element)
+    }
+
+    func insertAt(_ position: Int, _ element: WinUI.FrameworkElement) {
+        self.element?.children.insertAt(UInt32(position), element)
+    }
+
+    func removeAt(_ position: Int) {
+        self.element?.children.removeAt(UInt32(position))
+    }
+
     mutating func makeUIElement() -> WinUI.StackPanel? {
         element = WinUI.StackPanel()
         makePanel(content)

@@ -1,12 +1,11 @@
 import Observation
 import WinUI
 
-struct NavigationView<Content: Group>: UIElementRepresentable {
+struct NavigationView<Content: Group>: Panel {
+    var state = PanelState()
     var element: WinUI.NavigationView?
     var content: () -> Content
     var title: (() -> String)? = nil
-    @ReferenceType var navigationItems: [ElementIdentifier] = []
-    @ReferenceType var itemsMap: [ElementIdentifier: UIElement] = [:]
     @ReferenceType var contentMap: [ElementIdentifier: () -> any Element] = [:]
 
     init(@GroupBuilder content: @escaping () -> Content) {
@@ -16,6 +15,26 @@ struct NavigationView<Content: Group>: UIElementRepresentable {
     init(_ title: @escaping @autoclosure () -> String, @GroupBuilder content: @escaping () -> Content) {
         self.content = content
         self.title = title
+    }
+
+    func append(_ element: WinUI.FrameworkElement) {
+        self.element?.menuItems.append(element)
+    }
+
+    func insertAt(_ position: Int, _ element: WinUI.FrameworkElement) {
+        self.element?.menuItems.insertAt(UInt32(position), element)
+    }
+
+    func removeAt(_ position: Int) {
+        element?.menuItems.removeAt(UInt32(position))
+    }
+
+    func makeChildElement(_ element: any Element, _ id: ElementIdentifier) -> FrameworkElement? {
+        if let navigationViewItem = element as? any NavigationItemProtocol {
+            contentMap[id] = navigationViewItem.navigationContent
+            return element.makeElement()
+        }
+        return nil
     }
 
     mutating func makeUIElement() -> WinUI.NavigationView? {
@@ -28,33 +47,29 @@ struct NavigationView<Content: Group>: UIElementRepresentable {
 
             element.selectionChanged.addHandler { [self] view, args in
                 if let selected = args?.selectedItem as? UIElement {
-                    if let id = itemsMap.first(where: {
+                    if let id = state.elementsMap.first(where: {
                         $0.value == selected
                     })?.key {
                         view?.content = contentMap[id]?().makeElement()
                     }
                 }
             }
-
-            var index = 0
-            for (id, child) in content().makeGroup() {
-                let id = id.withIndex(index: index)
-                if let navigationViewItem = child as? any NavigationItemProtocol {
-                    if let itemElement = navigationViewItem.makeElement() {
-                        element.menuItems.append(itemElement)
-                        navigationItems.append(id)
-                        itemsMap[id] = itemElement
-                        contentMap[id] = navigationViewItem.navigationContent
-                    }
-                }
-                index += 1
-            }
-            
         }
+        makePanel(content)
+        updateUIElement()
         return element
     }
 
     func updateUIElement() {
+        if element != nil {
+            withObservationTracking {
+                updatePanel(content)
+            } onChange: {
+                Task { @MainActor in
+                    self.updateUIElement()
+                }
+            }
+        }
     }
 }
 

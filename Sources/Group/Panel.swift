@@ -2,23 +2,29 @@ import WinUI
 
 class PanelState {
     var renderedElements: [ElementIdentifier] = []
-    var elementsMap: [ElementIdentifier:UIElement] = [:]
+    var elementsMap: [ElementIdentifier:FrameworkElement] = [:]
 }
 
 @MainActor
-protocol Panel: UIElementRepresentable where Self.UIElementType: WinUI.Panel {
+protocol Panel: UIElementRepresentable {
     var state: PanelState { get set }
-    func makePanel<Content: Group>(_ content: () -> Content)
-    func updatePanel<Content: Group>(_ content: () -> Content)
+    func append(_ element: FrameworkElement)
+    func insertAt(_ position: Int, _ element: FrameworkElement)
+    func removeAt(_ position: Int)
+    func makeChildElement(_ element: any Element, _ id: ElementIdentifier) -> FrameworkElement?
 }
 
 extension Panel {
+    func makeChildElement(_ element: any Element, _ id: ElementIdentifier) -> FrameworkElement? {
+        return element.makeElement()
+    }
+
     internal func makePanel<Content: Group>(_ content: () -> Content) {
         var index = 0
         for (id, child) in content().makeGroup() {
             let id = id.withIndex(index: index)
-            if let element = child.makeElement() {
-                self.element?.children.append(element)
+            if let element = makeChildElement(child, id) {
+                append(element)
                 state.renderedElements.append(id)
                 state.elementsMap[id] = element
             }
@@ -45,9 +51,9 @@ extension Panel {
         for operation in operations {
             switch operation {
             case let .insert(offset: offset, element: elementKey, _):
-                element?.children.insertAt(UInt32(offset), state.elementsMap[elementKey])
+                insertAt(offset, state.elementsMap[elementKey]!)
             case let .remove(offset: offset, _, _):
-                element?.children.removeAt(UInt32(offset))
+                removeAt(offset)
             }
         }
         state.renderedElements = elementsToRender
