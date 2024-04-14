@@ -6,7 +6,9 @@ public struct NavigationView<Content: Group>: Panel {
     public var element: WinUI.NavigationView?
     var content: () -> Content
     var title: (() -> String)? = nil
+    @State var paneDisplayMode: NavigationViewPaneDisplayMode = .auto
     @ReferenceType var contentMap: [ElementIdentifier: () -> any Element] = [:]
+    @ReferenceType var titleMap: [ElementIdentifier: () -> String] = [:]
 
     public init(@GroupBuilder content: @escaping () -> Content) {
         self.content = content
@@ -32,6 +34,7 @@ public struct NavigationView<Content: Group>: Panel {
     func makeChildElement(_ element: any Element, _ id: ElementIdentifier) -> FrameworkElement? {
         if let navigationViewItem = element as? any NavigationItemProtocol {
             contentMap[id] = navigationViewItem.navigationContent
+            titleMap[id] = navigationViewItem.title
             return element.makeElement()
         }
         return nil
@@ -51,6 +54,7 @@ public struct NavigationView<Content: Group>: Panel {
                         $0.value == selected
                     })?.key {
                         view?.content = contentMap[id]?().makeElement()
+                        view?.header = titleMap[id]!()
                     }
                 }
             }
@@ -58,15 +62,17 @@ public struct NavigationView<Content: Group>: Panel {
         makePanel(content)
         if let first = state.renderedElements.first {
             element?.selectedItem = state.elementsMap[first]
+            element?.paneTitle = titleMap[first]!()
         }
         updateUIElement()
         return element
     }
 
     public func updateUIElement() {
-        if element != nil {
+        if let element {
             withObservationTracking {
                 updatePanel(content)
+                element.paneDisplayMode = paneDisplayMode
             } onChange: {
                 Task { @MainActor in
                     self.updateUIElement()
@@ -76,19 +82,35 @@ public struct NavigationView<Content: Group>: Panel {
     }
 }
 
+public extension NavigationView {
+    func paneDisplayMode(
+        _ paneDisplayMode: @autoclosure @escaping () -> NavigationViewPaneDisplayMode
+    ) -> Self {
+        withObservationTracking {
+            self.paneDisplayMode = paneDisplayMode()
+        } onChange: {
+            Task { @MainActor in
+                self.paneDisplayMode(paneDisplayMode())
+            }
+        }
+        return self
+    }
+}
+
 public protocol NavigationItemProtocol: Element {
     associatedtype NavigationContent: Element
     var navigationContent: () -> NavigationContent { get set }
+    var title: () -> String { get set }
 }
 
 public struct NavigationViewItem<Content: Element>: UIElementRepresentable, NavigationItemProtocol {
     public var element: WinUI.NavigationViewItem?
-    var value: () -> String
+    public var title: () -> String
     public var navigationContent: () -> Content
     var icon: Glyph?
 
-    public init(title value: @autoclosure @escaping () -> String, icon: Glyph? = nil, content: @autoclosure @escaping () -> Content) {
-        self.value = value
+    public init(title: @autoclosure @escaping () -> String, icon: Glyph? = nil, content: @autoclosure @escaping () -> Content) {
+        self.title = title
         self.icon = icon
         navigationContent = content
     }
@@ -102,7 +124,7 @@ public struct NavigationViewItem<Content: Element>: UIElementRepresentable, Navi
     public func updateUIElement() {
         if let element {
             withObservationTracking {
-                element.content = value()
+                element.content = title()
                 if let glyph = self.icon?.rawValue {
                     element.icon = {
                         let icon = FontIcon()
@@ -119,8 +141,8 @@ public struct NavigationViewItem<Content: Element>: UIElementRepresentable, Navi
     }
 }
 
-extension Element {
-    public func navigationItem(_ title: String, glyph: Glyph? = nil) -> NavigationViewItem<Self> {
+public extension Element {
+    func navigationItem(_ title: String, glyph: Glyph? = nil) -> NavigationViewItem<Self> {
         NavigationViewItem(title: title, icon: glyph, content: self)
     }
 }
