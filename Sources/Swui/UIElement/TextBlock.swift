@@ -8,9 +8,8 @@ import WinUI
 public struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentable {
     public var element: WinUI.TextBlock?
     var value: () -> Value
-    @State private var verticalAlignment: VerticalAlignment = .center
-    @State private var horizontalAlignment: HorizontalAlignment = .center
     @State private var foregroundColor: Color?
+    @State private var textAlignment: TextAlignment = .center
 
     public init(_ value: @autoclosure @escaping () -> Value) {
         self.value = value
@@ -18,6 +17,8 @@ public struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentabl
 
     public mutating func makeUIElement() -> WinUI.TextBlock? {
         element = WinUI.TextBlock()
+        element?.horizontalAlignment = .center
+        element?.verticalAlignment = .center
         updateUIElement()
         return element
     }
@@ -26,10 +27,9 @@ public struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentabl
         if let element {
             withObservationTracking {
                 element.text = value().description
-                element.verticalAlignment = verticalAlignment
-                element.horizontalAlignment = horizontalAlignment
                 if let foregroundColor {
                     element.foreground = SolidColorBrush(foregroundColor)
+                    element.textAlignment = textAlignment
                 }
             } onChange: {
                 Task { @MainActor in
@@ -40,37 +40,28 @@ public struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentabl
     }
 }
 
-extension TextBlock {
-    public func horizontalAlignment(_ horizontalAlignment: @escaping @autoclosure () -> HorizontalAlignment) -> Self {
-        withObservationTracking {
-            self.horizontalAlignment = horizontalAlignment()
-        } onChange: {
-            Task { @MainActor in
-                self.horizontalAlignment(horizontalAlignment())
-            }
-        }
-        return self
-    }
-
-
-    public func verticalAlignment(_ verticalAlignment: @escaping @autoclosure () -> VerticalAlignment) -> Self {
-        withObservationTracking {
-            self.verticalAlignment = verticalAlignment()
-        } onChange: {
-            Task { @MainActor in
-                self.verticalAlignment(verticalAlignment())
-            }
-        }
-        return self
-    }
-
-
-    public func foregroundColor(_ foregroundColor: @escaping @autoclosure () -> Color) -> Self {
+public extension TextBlock {
+    func foregroundColor(
+        _ foregroundColor: @escaping @autoclosure () -> Color
+    ) -> Self {
         withObservationTracking {
             self.foregroundColor = foregroundColor()
         } onChange: {
             Task { @MainActor in
                 self.foregroundColor(foregroundColor())
+            }
+        }
+        return self
+    }
+
+    func textAlignment(
+        _ textAlignment: @escaping @autoclosure () -> TextAlignment
+    ) -> Self {
+        withObservationTracking {
+            self.textAlignment = textAlignment()
+        } onChange: {
+            Task { @MainActor in
+                self.textAlignment(textAlignment())
             }
         }
         return self

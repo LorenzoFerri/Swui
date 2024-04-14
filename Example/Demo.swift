@@ -21,22 +21,22 @@ struct Demo: Element {
                 .navigationItem("Edit", glyph: .edit)
             ForEachExample()
                 .navigationItem("ForEach", glyph: .list)
+            SliderExample()
+                .navigationItem("Slider", glyph: .sliderThumb)
         }
     }
 }
 
 struct CounterExample: Element {
-    @State var count = 0
+    @State var count = 20
     var content: some Element {
         StackPanel(.horizontal) {
-            Button("-") { count -= 1 }
+            Button(count - 1) { count -= 1 }
             TextBlock(count)
-                .foregroundColor(count % 2 == 0 ? .green : .red)
-                .border(Double(count))
-                .background(count % 2 == 0 ? .red : .green)
-                .border(Double(count))
-                .background(count % 2 == 0 ? .green : .red)
-            Button("+") { count += 1 }
+                .margin(Double(count))
+                .verticalAlignment(.center)
+                .background(.red)
+            Button(count + 1) { count += 1 }
         }
     }
 }
@@ -85,6 +85,17 @@ struct ForEachExample: Element {
             ForEach(1...5) {
                 TextBlock($0)
             }
+        }
+    }
+}
+
+struct SliderExample: Element {
+    @State var value = 0.0
+    var content: some Element {
+        StackPanel {
+            TextBlock("Value: \(value)")
+            Slider($value)
+                .minWidth(200.0)
         }
     }
 }

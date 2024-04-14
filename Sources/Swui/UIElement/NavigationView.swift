@@ -56,6 +56,9 @@ public struct NavigationView<Content: Group>: Panel {
             }
         }
         makePanel(content)
+        if let first = state.renderedElements.first {
+            element?.selectedItem = state.elementsMap[first]
+        }
         updateUIElement()
         return element
     }
