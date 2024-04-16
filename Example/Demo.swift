@@ -9,7 +9,6 @@ struct MyApp: App {
     }
 }
 
-
 struct Demo: Element {
     var content: some Element {
         NavigationView("Examples") {
@@ -82,10 +81,10 @@ struct ForEachExample: Element {
             Button("Shuffle") {
                 people.shuffle()
             }
-            ForEach(1...5) {
+            ForEach(1 ... 5) {
                 TextBlock($0)
             }
-        }
+        }.scrollable()
     }
 }
 
