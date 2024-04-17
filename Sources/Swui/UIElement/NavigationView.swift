@@ -62,7 +62,7 @@ public struct NavigationView<Content: Group>: Panel {
         makePanel(content)
         if let first = state.renderedElements.first {
             element?.selectedItem = state.elementsMap[first]
-            element?.paneTitle = titleMap[first]!()
+            element?.header = titleMap[first]!()
         }
         updateUIElement()
         return element

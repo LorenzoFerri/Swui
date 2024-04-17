@@ -1,5 +1,5 @@
+import Foundation
 import Swui
-
 @main
 struct MyApp: App {
     var content: some Scene {
@@ -22,6 +22,8 @@ struct Demo: Element {
                 .navigationItem("ForEach", glyph: .list)
             SliderExample()
                 .navigationItem("Slider", glyph: .sliderThumb)
+            ImageExample()
+                .navigationItem("Image", glyph: .picture)
         }
     }
 }
@@ -94,7 +96,16 @@ struct SliderExample: Element {
         StackPanel {
             TextBlock("Value: \(value)")
             Slider($value)
-                .minWidth(200.0)
+                .minWidth(200)
         }
+    }
+}
+
+struct ImageExample: Element {
+    var content: some Element {
+        Image(Bundle.module.resourcePath!.appendingPathComponent("swift.svg"))
+            .minWidth(200)
+            .minHeight(200)
+            .maxWidth(400)
     }
 }

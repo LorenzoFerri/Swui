@@ -1,8 +1,8 @@
 // swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
-import PackageDescription
 import CompilerPluginSupport
+import PackageDescription
 
 let GUILinkerSettings: [LinkerSetting] = [
     .unsafeFlags(["-Xlinker", "/SUBSYSTEM:WINDOWS"], .when(configuration: .release)),
@@ -21,7 +21,7 @@ let package = Package(
         .package(url: "https://github.com/thebrowsercompany/swift-windowsappsdk", branch: "main"),
         .package(url: "https://github.com/thebrowsercompany/swift-windowsfoundation", branch: "main"),
         .package(url: "https://github.com/ducaale/swift-winui", branch: "navigationview-bindings"),
-        .package(url: "https://github.com/apple/swift-syntax", from: "509.0.0")
+        .package(url: "https://github.com/apple/swift-syntax", from: "509.0.0"),
     ],
     targets: [
         .target(
@@ -38,13 +38,14 @@ let package = Package(
             name: "SwuiMacros",
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             ]
         ),
         .executableTarget(
             name: "Example",
             dependencies: ["Swui"],
-            path: "Example/"
+            path: "Example/",
+            resources: [.copy("Resources")]
         ),
     ]
 )
