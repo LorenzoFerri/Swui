@@ -28,7 +28,6 @@ public struct Image: UIElementRepresentable {
         if let element {
             withObservationTracking {
                 let path = source()
-                dump(path)
                 if path.hasSuffix(".svg") {
                     svgSource?.uriSource = Uri(path)
                     element.source = svgSource

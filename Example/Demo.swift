@@ -103,9 +103,11 @@ struct SliderExample: Element {
 
 struct ImageExample: Element {
     var content: some Element {
-        Image(Bundle.module.resourcePath!.appendingPathComponent("swift.svg"))
-            .minWidth(200)
-            .minHeight(200)
-            .maxWidth(400)
+        StackPanel(.horizontal) {
+            Image(Bundle.module.path(forResource: "swift", ofType: "svg")!)
+                .width(200)
+            Image("https://picsum.photos/200/300")
+                .width(200)
+        }.spacing(50)
     }
 }

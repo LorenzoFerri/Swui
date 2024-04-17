@@ -45,7 +45,7 @@ let package = Package(
             name: "Example",
             dependencies: ["Swui"],
             path: "Example/",
-            resources: [.copy("Resources")]
+            resources: [.process("Resources")]
         ),
     ]
 )
