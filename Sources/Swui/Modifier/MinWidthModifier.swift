@@ -1,6 +1,5 @@
 import Observation
 import WinUI
-import SwuiMacros
 
 public struct MinWidthModifier<Child: Element>: ElementModifier {
     public let child: Child

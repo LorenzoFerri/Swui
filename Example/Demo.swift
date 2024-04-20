@@ -30,25 +30,28 @@ struct Demo: Element {
 
 struct CounterExample: Element {
     @State var count = 20
+
     var content: some Element {
-        StackPanel(.horizontal) {
-            Button(count - 1) { count -= 1 }
-            TextBlock(count)
-                .margin(Double(count))
-                .verticalAlignment(.center)
-                .background(.red)
-            Button(count + 1) { count += 1 }
+        StackPanel {
+            StackPanel(.horizontal) {
+                Button(count - 1) { count -= 1 }
+                TextBlock(count)
+                Button(count + 1) { count += 1 }
+            }
         }
     }
 }
 
 struct ToggleExample: Element {
-    @State var isOn = false
+    @State var isOn = true
     var content: some Element {
         StackPanel {
             ToggleSwitch($isOn)
+            CounterExample()
             if isOn {
                 TextBlock("I'm on!")
+            } else {
+                CounterExample()
             }
         }
     }
@@ -83,10 +86,13 @@ struct ForEachExample: Element {
             Button("Shuffle") {
                 people.shuffle()
             }
+            .horizontalAlignment(.center)
             ForEach(1 ... 5) {
                 TextBlock($0)
             }
-        }.scrollable()
+        }
+        .horizontalAlignment(.stretch)
+        .scrollable()
     }
 }
 

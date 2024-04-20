@@ -15,13 +15,13 @@ let package = Package(
     name: "Swui",
     products: [
         .library(name: "Swui", targets: ["Swui"]),
-        .executable(name: "Example", targets: ["Example"]),
     ],
     dependencies: [
         .package(url: "https://github.com/thebrowsercompany/swift-windowsappsdk", branch: "main"),
         .package(url: "https://github.com/thebrowsercompany/swift-windowsfoundation", branch: "main"),
         .package(url: "https://github.com/ducaale/swift-winui", branch: "navigationview-bindings"),
-        .package(url: "https://github.com/apple/swift-syntax", from: "509.0.0"),
+        // .package(url: "https://github.com/apple/swift-syntax", from: "510.0.0"),
+        // .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.1"),
     ],
     targets: [
         .target(
@@ -30,22 +30,36 @@ let package = Package(
                 .product(name: "WinUI", package: "swift-winui"),
                 .product(name: "WinAppSDK", package: "swift-windowsappsdk"),
                 .product(name: "WindowsFoundation", package: "swift-windowsfoundation"),
-                "SwuiMacros",
+                // .target(name: "SwuiMacros"),
             ],
             linkerSettings: GUILinkerSettings
         ),
-        .macro(
-            name: "SwuiMacros",
-            dependencies: [
-                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-            ]
-        ),
+        // .macro(
+        //     name: "SwuiMacros",
+        //     dependencies: [
+        //         .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+        //         .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+        //     ]
+        // ),
         .executableTarget(
             name: "Example",
             dependencies: ["Swui"],
             path: "Example/",
             resources: [.process("Resources")]
+            // plugins: [.plugin(name: "StaticResourceGeneratorPlugin")]
         ),
+        // .executableTarget(
+        //     name: "StaticResourceGenerator",
+        //     dependencies: [
+        //         .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        //         .product(name: "SwiftSyntax", package: "swift-syntax"),
+        //         .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+        //     ]
+        // ),
+        // .plugin(
+        //     name: "StaticResourceGeneratorPlugin",
+        //     capability: .buildTool,
+        //     dependencies: [.target(name: "StaticResourceGenerator")]
+        // ),
     ]
 )

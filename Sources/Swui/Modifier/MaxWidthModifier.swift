@@ -1,6 +1,5 @@
 import Observation
 import WinUI
-import SwuiMacros
 
 public struct MaxWidthModifier<Child: Element>: ElementModifier {
     public let child: Child

@@ -2,7 +2,7 @@ import WinUI
 
 class PanelState {
     var renderedElements: [ElementIdentifier] = []
-    var elementsMap: [ElementIdentifier:FrameworkElement] = [:]
+    var elementsMap: [ElementIdentifier: FrameworkElement] = [:]
 }
 
 @MainActor
@@ -15,11 +15,11 @@ protocol Panel: UIElementRepresentable {
 }
 
 extension Panel {
-    func makeChildElement(_ element: any Element, _ id: ElementIdentifier) -> FrameworkElement? {
+    func makeChildElement(_ element: any Element, _: ElementIdentifier) -> FrameworkElement? {
         return element.makeElement()
     }
 
-    internal func makePanel<Content: Group>(_ content: () -> Content) {
+    func makePanel<Content: Group>(_ content: () -> Content) {
         var index = 0
         for (id, child) in content().makeGroup() {
             let id = id.withIndex(index: index)
@@ -32,13 +32,13 @@ extension Panel {
         }
     }
 
-    internal func updatePanel<Content: Group>(_ content: () -> Content) {
+    func updatePanel<Content: Group>(_ content: () -> Content) {
         var index = 0
         var elementsToRender: [ElementIdentifier] = []
         for (id, child) in content().makeGroup() {
             let id = id.withIndex(index: index)
             if !state.renderedElements.contains(id) {
-                if let element = child.makeElement() {
+                if let element = makeChildElement(child, id) {
                     state.elementsMap[id] = element
                     elementsToRender.append(id)
                 }

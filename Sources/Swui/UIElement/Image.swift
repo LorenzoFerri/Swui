@@ -3,9 +3,6 @@ import Observation
 import WindowsFoundation
 import WinUI
 
-private class BundleFinder {}
-
-
 public struct Image: UIElementRepresentable {
     public var element: WinUI.Image?
     let source: () -> String
@@ -14,6 +11,10 @@ public struct Image: UIElementRepresentable {
 
     public init(_ source: @autoclosure @escaping () -> String) {
         self.source = source
+    }
+
+    public init(_ source: @autoclosure @escaping () -> Resource) {
+        self.source = { source().path }
     }
 
     public mutating func makeUIElement() -> WinUI.Image? {
