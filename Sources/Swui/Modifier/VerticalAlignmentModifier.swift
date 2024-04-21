@@ -13,13 +13,13 @@ public struct VerticalAlignmentModifier<Child: Element>: ElementModifier {
         self.child = child()
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.verticalAlignment = verticalAlignment
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

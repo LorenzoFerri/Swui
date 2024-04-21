@@ -19,21 +19,21 @@ public struct Border<Content: Element>: UIElementRepresentable {
         self.backgroundColor = backgroundColor
     }
 
-    public mutating func makeUIElement() -> WinUI.Border? {
+    public mutating func makeUIElement(context: Context) -> WinUI.Border? {
         element = WinUI.Border()
-        element?.child = content.makeElement()
-        updateUIElement()
+        element?.child = content.makeElement(context: context)
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.borderThickness = borderThickness()
                 element.background = SolidColorBrush(backgroundColor())
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

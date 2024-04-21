@@ -15,15 +15,15 @@ public struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentabl
         self.value = value
     }
 
-    public mutating func makeUIElement() -> WinUI.TextBlock? {
+    public mutating func makeUIElement(context: Context) -> WinUI.TextBlock? {
         element = WinUI.TextBlock()
         element?.horizontalAlignment = .center
         element?.verticalAlignment = .center
-        updateUIElement()
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.text = value().description
@@ -33,7 +33,7 @@ public struct TextBlock<Value: LosslessStringConvertible>: UIElementRepresentabl
                 }
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

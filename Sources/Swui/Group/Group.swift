@@ -2,5 +2,5 @@ import Foundation
 
 @MainActor
 public protocol Group {
-    func makeGroup() -> [(ElementIdentifier, any Element)]
+    func makeGroup(context: Context) -> [(ElementIdentifier, any Element)]
 }

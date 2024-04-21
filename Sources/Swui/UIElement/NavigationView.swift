@@ -31,16 +31,16 @@ public struct NavigationView<Content: Group>: Panel {
         element?.menuItems.removeAt(UInt32(position))
     }
 
-    func makeChildElement(_ element: any Element, _ id: ElementIdentifier) -> FrameworkElement? {
+    func makeChildElement(_ element: any Element, _ id: ElementIdentifier, context: Context) -> FrameworkElement? {
         if let navigationViewItem = element as? any NavigationItemProtocol {
             contentMap[id] = navigationViewItem.navigationContent
             titleMap[id] = navigationViewItem.title
-            return element.makeElement()
+            return element.makeElement(context: context)
         }
         return nil
     }
 
-    public mutating func makeUIElement() -> WinUI.NavigationView? {
+    public mutating func makeUIElement(context: Context) -> WinUI.NavigationView? {
         element = WinUI.NavigationView()
         if let element {
             if let title = title?() {
@@ -53,29 +53,29 @@ public struct NavigationView<Content: Group>: Panel {
                     if let id = state.elementsMap.first(where: {
                         $0.value == selected
                     })?.key {
-                        view?.content = contentMap[id]?().makeElement()
+                        view?.content = contentMap[id]?().makeElement(context: context)
                         view?.header = titleMap[id]!()
                     }
                 }
             }
         }
-        makePanel(content)
+        makePanel(content, context: context)
         if let first = state.renderedElements.first {
             element?.selectedItem = state.elementsMap[first]
             element?.header = titleMap[first]!()
         }
-        updateUIElement()
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
-                updatePanel(content)
+                updatePanel(content, context: context)
                 element.paneDisplayMode = paneDisplayMode
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }
@@ -115,13 +115,13 @@ public struct NavigationViewItem<Content: Element>: UIElementRepresentable, Navi
         navigationContent = content
     }
 
-    public mutating func makeUIElement() -> WinUI.NavigationViewItem? {
+    public mutating func makeUIElement(context: Context) -> WinUI.NavigationViewItem? {
         element = WinUI.NavigationViewItem()
-        updateUIElement()
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.content = title()
@@ -134,7 +134,7 @@ public struct NavigationViewItem<Content: Element>: UIElementRepresentable, Navi
                 }
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

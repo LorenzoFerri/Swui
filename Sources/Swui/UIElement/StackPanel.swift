@@ -30,24 +30,24 @@ public struct StackPanel<Content: Group>: Panel {
         self.element?.children.removeAt(UInt32(position))
     }
 
-    public mutating func makeUIElement() -> WinUI.StackPanel? {
+    public mutating func makeUIElement(context: Context) -> WinUI.StackPanel? {
         element = WinUI.StackPanel()
         element?.horizontalAlignment = .center
         element?.verticalAlignment = .center
-        makePanel(content)
-        updateUIElement()
+        makePanel(content, context: context)
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
-                updatePanel(content)
+                updatePanel(content, context: context)
                 element.orientation = orientation
                 element.spacing = spacing
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

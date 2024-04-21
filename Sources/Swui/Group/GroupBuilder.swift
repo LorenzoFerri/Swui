@@ -63,7 +63,7 @@ public struct ElementGroup1<E0: Group>: Group {
         self.e0 = e0
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) }
 }
 
 public struct ElementGroup2<E0: Group, E1: Group>: Group {
@@ -75,7 +75,7 @@ public struct ElementGroup2<E0: Group, E1: Group>: Group {
         self.e1 = e1
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) + e1.makeGroup(context: context) }
 }
 
 public struct ElementGroup3<E0: Group, E1: Group, E2: Group>: Group {
@@ -89,7 +89,7 @@ public struct ElementGroup3<E0: Group, E1: Group, E2: Group>: Group {
         self.e2 = e2
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) + e1.makeGroup(context: context) + e2.makeGroup(context: context) }
 }
 
 public struct ElementGroup4<E0: Group, E1: Group, E2: Group, E3: Group>: Group {
@@ -105,7 +105,7 @@ public struct ElementGroup4<E0: Group, E1: Group, E2: Group, E3: Group>: Group {
         self.e3 = e3
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) + e1.makeGroup(context: context) + e2.makeGroup(context: context) + e3.makeGroup(context: context) }
 }
 
 public struct ElementGroup5<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group>: Group {
@@ -123,7 +123,7 @@ public struct ElementGroup5<E0: Group, E1: Group, E2: Group, E3: Group, E4: Grou
         self.e4 = e4
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) + e1.makeGroup(context: context) + e2.makeGroup(context: context) + e3.makeGroup(context: context) + e4.makeGroup(context: context) }
 }
 
 public struct ElementGroup6<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group>: Group {
@@ -143,7 +143,7 @@ public struct ElementGroup6<E0: Group, E1: Group, E2: Group, E3: Group, E4: Grou
         self.e5 = e5
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) + e1.makeGroup(context: context) + e2.makeGroup(context: context) + e3.makeGroup(context: context) + e4.makeGroup(context: context) + e5.makeGroup(context: context) }
 }
 
 public struct ElementGroup7<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group>: Group {
@@ -165,7 +165,7 @@ public struct ElementGroup7<E0: Group, E1: Group, E2: Group, E3: Group, E4: Grou
         self.e6 = e6
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) + e1.makeGroup(context: context) + e2.makeGroup(context: context) + e3.makeGroup(context: context) + e4.makeGroup(context: context) + e5.makeGroup(context: context) + e6.makeGroup(context: context) }
 }
 
 public struct ElementGroup8<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group, E7: Group>: Group {
@@ -189,7 +189,7 @@ public struct ElementGroup8<E0: Group, E1: Group, E2: Group, E3: Group, E4: Grou
         self.e7 = e7
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) + e1.makeGroup(context: context) + e2.makeGroup(context: context) + e3.makeGroup(context: context) + e4.makeGroup(context: context) + e5.makeGroup(context: context) + e6.makeGroup(context: context) + e7.makeGroup(context: context) }
 }
 
 public struct ElementGroup9<E0: Group, E1: Group, E2: Group, E3: Group, E4: Group, E5: Group, E6: Group, E7: Group, E8: Group>: Group {
@@ -215,5 +215,5 @@ public struct ElementGroup9<E0: Group, E1: Group, E2: Group, E3: Group, E4: Grou
         self.e8 = e8
     }
 
-    public func makeGroup() -> [(ElementIdentifier, any Element)] { e0.makeGroup() + e1.makeGroup() + e2.makeGroup() + e3.makeGroup() + e4.makeGroup() + e5.makeGroup() + e6.makeGroup() + e7.makeGroup() + e8.makeGroup() }
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] { e0.makeGroup(context: context) + e1.makeGroup(context: context) + e2.makeGroup(context: context) + e3.makeGroup(context: context) + e4.makeGroup(context: context) + e5.makeGroup(context: context) + e6.makeGroup(context: context) + e7.makeGroup(context: context) + e8.makeGroup(context: context) }
 }

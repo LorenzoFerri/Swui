@@ -12,13 +12,13 @@ public struct MaxWidthModifier<Child: Element>: ElementModifier {
     ) {
         self.child = child()
     }
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.maxWidth = maxWidth
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

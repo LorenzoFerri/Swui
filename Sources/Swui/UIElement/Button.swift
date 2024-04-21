@@ -12,7 +12,7 @@ public struct Button<Value: LosslessStringConvertible>: UIElementRepresentable {
         self.onClick = onClick
     }
 
-    public mutating func makeUIElement() -> WinUI.Button? {
+    public mutating func makeUIElement(context: Context) -> WinUI.Button? {
         element = WinUI.Button()
         if let element {
             // let textBlock = WinUI.TextBlock()
@@ -22,17 +22,17 @@ public struct Button<Value: LosslessStringConvertible>: UIElementRepresentable {
                 }
             }
         }
-        updateUIElement()
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.content = value().description
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

@@ -6,7 +6,7 @@ public protocol ElementGroup: Group {
 }
 
 extension Group where Self: ElementGroup {
-    public func makeGroup() -> [(ElementIdentifier, any Element)] {
-        children.makeGroup()
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] {
+        children.makeGroup(context: context)
     }
 }

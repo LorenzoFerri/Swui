@@ -9,7 +9,8 @@ public struct Window<Content: Element>: Scene {
         window = WinUI.Window()
         window.systemBackdrop = MicaBackdrop()
         try! window.appWindow.resize(.init(width: 1280, height: 720))
-        window.content = UIHostingController(rootElement: content())
+        let context = Context(window: window)
+        window.content = UIHostingController(rootElement: content(), context: context)
         window.extendsContentIntoTitleBar = true
     }
 

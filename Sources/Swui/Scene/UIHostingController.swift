@@ -4,8 +4,8 @@ public class UIHostingController<Content>: Frame
     where Content: Element
 {
     @MainActor
-    init(rootElement element: Content) {
+    init(rootElement element: Content, context: Context) {
         super.init()
-        content = element.makeElement()
+        content = element.makeElement(context: context)
     }
 }

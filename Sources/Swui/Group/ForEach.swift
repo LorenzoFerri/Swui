@@ -5,9 +5,9 @@ public struct ForEach<Data, Content>: Group where Data: RandomAccessCollection, 
 
 
 extension ForEach {
-    public func makeGroup() -> [(ElementIdentifier, any Element)] {
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] {
         return data.flatMap { element in
-            content(element).makeGroup().map { ($0.0.withId(id: "\(element.id)"), $0.1) }
+            content(element).makeGroup(context: context).map { ($0.0.withId(id: "\(element.id)"), $0.1) }
         }
     }
 

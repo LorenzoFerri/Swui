@@ -27,14 +27,14 @@ public struct EitherElement<First: Element, Second: Element>: UIElementRepresent
         _element = element
     }
 
-    public func makeUIElement() -> FrameworkElement? {
+    public func makeUIElement(context: Context) -> FrameworkElement? {
         switch _element {
-            case let .first(element): element.makeElement()
-            case let .second(element): element.makeElement()
+            case let .first(element): element.makeElement(context: context)
+            case let .second(element): element.makeElement(context: context)
         }
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
 
     }
 }

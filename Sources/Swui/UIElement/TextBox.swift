@@ -10,24 +10,24 @@ public struct TextBox: UIElementRepresentable {
         _value = value
     }
 
-    public mutating func makeUIElement() -> WinUI.TextBox? {
+    public mutating func makeUIElement(context: Context) -> WinUI.TextBox? {
         element = WinUI.TextBox()
         if let element {
             element.textChanged.addHandler { [self] _, _ in
                 self.value = element.text
             }
         }
-        updateUIElement()
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.text = value.description
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

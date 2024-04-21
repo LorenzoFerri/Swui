@@ -14,14 +14,14 @@ public struct ScrollView<Content: Element>: UIElementRepresentable {
         self.content = content
     }
 
-    public mutating func makeUIElement() -> WinUI.ScrollView? {
+    public mutating func makeUIElement(context: Context) -> WinUI.ScrollView? {
         element = WinUI.ScrollView()
-        element?.content = content().makeElement()
-        updateUIElement()
+        element?.content = content().makeElement(context: context)
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {}
+    public func updateUIElement(context: Context) {}
 }
 
 public extension Element {

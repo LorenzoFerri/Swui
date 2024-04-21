@@ -11,17 +11,17 @@ public protocol Element: Group {
 }
 
 extension Element {
-    func makeElement() -> FrameworkElement? {
+    func makeElement(context: Context) -> FrameworkElement? {
         guard !(self is EmptyElement) else { return nil }
         if var u = self as? any UIElementRepresentable {
-            return u.makeUIElement()
+            return u.makeUIElement(context: context)
         }
-        return content.makeElement()
+        return content.makeElement(context: context)
     }
 }
 
 extension Group where Self: Element {
-    public func makeGroup() -> [(ElementIdentifier, any Element)] {
+    public func makeGroup(context: Context) -> [(ElementIdentifier, any Element)] {
         [(ElementIdentifier(Self.self), self)]
     }
 }

@@ -1,5 +1,6 @@
 import Foundation
 import Swui
+import Observation
 @main
 struct MyApp: App {
     var content: some Scene {
@@ -28,15 +29,24 @@ struct Demo: Element {
     }
 }
 
+
+@Observable class CounterViewModel {
+    var count = 20
+    func increment() {
+        count += 1
+    }
+}
+
 struct CounterExample: Element {
     @State var count = 20
+    var state = CounterViewModel()
 
     var content: some Element {
         StackPanel {
             StackPanel(.horizontal) {
-                Button(count - 1) { count -= 1 }
-                TextBlock(count)
-                Button(count + 1) { count += 1 }
+                Button(state.count - 1) { count -= 1 }
+                TextBlock(state.count)
+                Button(state.count + 1) { state.increment() }
             }
         }
     }

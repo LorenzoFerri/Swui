@@ -13,13 +13,13 @@ public struct WidthModifier<Child: Element>: ElementModifier {
         self.child = child()
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.width = width
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

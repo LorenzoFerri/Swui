@@ -17,15 +17,15 @@ public struct Image: UIElementRepresentable {
         self.source = { source().path }
     }
 
-    public mutating func makeUIElement() -> WinUI.Image? {
+    public mutating func makeUIElement(context: Context) -> WinUI.Image? {
         element = WinUI.Image()
         imageSource = BitmapImage()
         svgSource = SvgImageSource()
-        updateUIElement()
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 let path = source()
@@ -38,7 +38,7 @@ public struct Image: UIElementRepresentable {
                 }
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

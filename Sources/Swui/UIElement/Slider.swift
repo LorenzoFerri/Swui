@@ -17,7 +17,7 @@ public struct Slider: UIElementRepresentable {
         self.maximum = maximum
     }
 
-    public mutating func makeUIElement() -> WinUI.Slider? {
+    public mutating func makeUIElement(context: Context) -> WinUI.Slider? {
         element = WinUI.Slider()
         if let element {
             element.horizontalAlignment = .stretch
@@ -25,11 +25,11 @@ public struct Slider: UIElementRepresentable {
                 self.value = element.value
             }
         }
-        updateUIElement()
+        updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.value = value
@@ -37,7 +37,7 @@ public struct Slider: UIElementRepresentable {
                 element.maximum = maximum()
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

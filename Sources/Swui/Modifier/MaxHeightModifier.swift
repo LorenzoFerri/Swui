@@ -13,13 +13,13 @@ public struct MaxHeightModifier<Child: Element>: ElementModifier {
         self.child = child()
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.maxHeight = maxHeight
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

@@ -13,13 +13,13 @@ public struct HeightModifier<Child: Element>: ElementModifier {
         self.child = child()
     }
 
-    public func updateUIElement() {
+    public func updateUIElement(context: Context) {
         if let element {
             withObservationTracking {
                 element.height = height
             } onChange: {
                 Task { @MainActor in
-                    self.updateUIElement()
+                    self.updateUIElement(context: context)
                 }
             }
         }

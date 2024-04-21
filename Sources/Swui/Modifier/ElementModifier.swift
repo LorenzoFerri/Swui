@@ -7,9 +7,9 @@ public protocol ElementModifier: UIElementRepresentable {
 }
 
 public extension ElementModifier where Self.UIElementType == FrameworkElement{
-    mutating func makeUIElement() -> WinUI.FrameworkElement? {
-        element = child.makeElement()
-        updateUIElement()
+    mutating func makeUIElement(context: Context) -> WinUI.FrameworkElement? {
+        element = child.makeElement(context: context)
+        updateUIElement(context: context)
         return element
     }
 }
