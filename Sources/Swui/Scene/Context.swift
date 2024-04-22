@@ -1,5 +1,6 @@
 import WinUI
+import Observation
 
 public struct Context {
-    var window: WinUI.Window
+    var enviroments: [ObjectIdentifier : any Observable]
 }

@@ -13,6 +13,15 @@ public protocol Element: Group {
 extension Element {
     func makeElement(context: Context) -> FrameworkElement? {
         guard !(self is EmptyElement) else { return nil }
+
+        for property in Mirror(reflecting: self).children {
+            if var enviroment = property.value as? any EnviromentProtocol {
+                if let observableValue = context.enviroments[ObjectIdentifier(enviroment.key)] {
+                    enviroment.resolvedValue = observableValue
+                }
+            }
+        }
+
         if var u = self as? any UIElementRepresentable {
             return u.makeUIElement(context: context)
         }
