@@ -1,12 +1,13 @@
-
+import Observation
 @propertyWrapper
-public struct Binding<Value> {
+@Observable
+public class Binding<Value> {
     let get: () -> Value
     let set: (Value) -> Void
 
     public var wrappedValue: Value {
         get { get() }
-        nonmutating set { set(newValue) }
+        set { set(newValue) }
     }
 
     public var projectedValue: Binding<Value> {
@@ -18,7 +19,7 @@ public struct Binding<Value> {
         self.set = set
     }
 
-    static func constant(_ value: Value) -> Self {
+    static func constant(_ value: Value) -> Binding<Value> {
         Binding(get: { value }, set: { _ in })
     }
 }
