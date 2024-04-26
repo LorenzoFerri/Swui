@@ -1,12 +1,12 @@
 import Foundation
-import Swui
 import Observation
+import Swui
 
 @main
 struct MyApp: App {
     var content: some Scene {
         Window {
-            Demo()
+            TreeViewExample()
         }
     }
 }
@@ -144,5 +144,27 @@ struct ImageExample: Element {
             Image("https://picsum.photos/200/300")
                 .width(200)
         }.spacing(50)
+    }
+}
+
+struct Folder {
+    let name: String
+    let children: [Folder]
+}
+
+struct TreeViewExample: Element {
+    let folders = [Folder(
+        name: "Root",
+        children: [
+            Folder(name: "Child 1", children: []),
+            Folder(name: "Child 2", children: [Folder(name: "Child 21", children: [])]),
+        ]
+    )]
+    var content: some Element {
+        StackPanel {
+            TreeView(data: folders, keyPath: \.children) { item in
+                item.name
+            }
+        }
     }
 }
