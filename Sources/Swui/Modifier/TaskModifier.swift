@@ -5,11 +5,11 @@ public struct TaskModifier<Child: Element>: ElementModifier {
     public let child: Child
     public var element: FrameworkElement?
 
-    private var task: () -> Void
+    private var task: () async -> Void
 
     public init(
         @ElementBuilder child: @escaping () -> Child,
-        task: @escaping () -> Void
+        task: @escaping () async -> Void
     ) {
         self.child = child()
         self.task = task
@@ -26,14 +26,14 @@ public struct TaskModifier<Child: Element>: ElementModifier {
 
     func runTask() {
         Task { @MainActor in
-            task()
+            await task()
         }
     }
 }
 
 public extension Element {
     func task(
-        _ task: @escaping () -> Void
+        _ task: @escaping () async -> Void
     ) -> TaskModifier<Self> {
         TaskModifier(child: { self }, task: task)
     }
