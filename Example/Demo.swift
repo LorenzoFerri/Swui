@@ -44,6 +44,7 @@ struct CounterExample: Element {
 
     var content: some Element {
         StackPanel {
+            ProgressRing()
             StackPanel {
                 TextBlock("Outer state: \(state1.count)")
                 NestedCounter()
