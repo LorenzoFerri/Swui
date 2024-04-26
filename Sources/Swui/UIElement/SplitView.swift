@@ -19,15 +19,22 @@ public struct SplitView<Content: Element, Pane: Element>: UIElementRepresentable
 
     public mutating func makeUIElement(context: Context) -> WinUI.SplitView? {
         element = WinUI.SplitView()
-        if let element {
-            element.content = content().makeElement(context: context)
-            element.pane = pane().makeElement(context: context)
-            element.isPaneOpen = true
-            element.displayMode = .inline
-        }
         updateUIElement(context: context)
         return element
     }
 
-    public func updateUIElement(context: Context) {}
+    public func updateUIElement(context: Context) {
+        withObservationTracking {
+            if let element {
+                element.content = content().makeElement(context: context)
+                element.pane = pane().makeElement(context: context)
+                element.isPaneOpen = true
+                element.displayMode = .inline
+            }
+        } onChange: {
+            Task { @MainActor in
+                self.updateUIElement(context: context)
+            }
+        }
+    }
 }
